@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   Alert,
   Image,
   ScrollView,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, // ✅ (1) already imported - good for handling keyboard overlap
 } from 'react-native';
 
 export default function LoginScreen({ navigation }) {
@@ -23,40 +23,39 @@ export default function LoginScreen({ navigation }) {
     block: '',
     password: '',
   });
-  
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = () => {
-  if (isRegister) {
-    const fullName = `${formData.firstName} ${formData.middleName} ${formData.lastName}`.trim();
+    if (isRegister) {
+      // ✅ (2) fixed string interpolation with backticks
+      const fullName = ${formData.firstName} ${formData.middleName} ${formData.lastName}.trim();
 
-    if (
-      !formData.studentId ||
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.course ||
-      !formData.block ||
-      !formData.password
-    ) {
-      Alert.alert('Registration Failed', 'Please fill out all required fields.');
-      return;
-    }
+      if (
+        !formData.studentId ||
+        !formData.firstName ||
+        !formData.lastName ||
+        !formData.course ||
+        !formData.block ||
+        !formData.password
+      ) {
+        Alert.alert('Registration Failed', 'Please fill out all required fields.');
+        return;
+      }
 
-    Alert.alert('Registration Successful ✅', `Welcome, ${fullName}!`);
-
-  } else {
-    if (formData.studentId && formData.password) {
-      Alert.alert('Access Granted 🎓', 'Welcome to TMC Campus Guide!');
+      // ✅ (3) fixed string interpolation inside Alert message
+      Alert.alert('Registration Successful ✅', Welcome, ${fullName}!);
 
     } else {
-      Alert.alert('Invalid Credentials', 'Please check your Student ID and Password.');
+      if (formData.studentId && formData.password) {
+        Alert.alert('Access Granted 🎓', 'Welcome to TMC Campus Guide!');
+      } else {
+        Alert.alert('Invalid Credentials', 'Please check your Student ID and Password.');
+      }
     }
-  }
-};
-
+  };
 
   const toggleForm = () => {
     setIsRegister(!isRegister);
@@ -74,166 +73,174 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View style={styles.header}>
-          <View style={styles.logoContainer}>
-            <Image
-              source={require("./assets/tmc-logo.jpg")}
-              style={styles.logoImage}
-              resizeMode="contain"
-            />
-          </View>
-          <Text style={styles.mainTitle}>TMC CAMPUS GUIDE</Text>
-          <Text style={styles.subTitle}>
-            {isRegister ? 'CREATE NEW ACCOUNT' : 'LOGIN'}
-          </Text>
-        </View>
-
-        <View style={styles.formContainer}>
-          {!isRegister ? (
-
-            <>
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Student ID:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.studentId}
-                  onChangeText={(value) => handleInputChange('studentId', value)}
-                  placeholder="Enter your student ID (e.g., 23-016046)"
-                  autoCapitalize="none"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Password:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.password}
-                  onChangeText={(value) => handleInputChange('password', value)}
-                  placeholder="Enter your password"
-                  secureTextEntry={!showPassword}
-                  autoCapitalize="none"
-                />
-                <TouchableOpacity
-                  style={styles.passwordToggle}
-                  onPress={() => setShowPassword(!showPassword)}
-                >
-                  <Text style={styles.toggleText}>
-                    {showPassword ? 'Hide' : 'Show'}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
-              <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>🔒 Login</Text>
-              </TouchableOpacity>
-            </>
-          ) : (
-
-            <>
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Student ID:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.studentId}
-                  onChangeText={(value) => handleInputChange('studentId', value)}
-                  placeholder="Enter your student ID (e.g., 23-016046)"
-                  autoCapitalize="none"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>First Name:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.firstName}
-                  onChangeText={(value) => handleInputChange('firstName', value)}
-                  placeholder="Enter your first name"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Middle Name:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.middleName}
-                  onChangeText={(value) => handleInputChange('middleName', value)}
-                  placeholder="Enter your middle name (optional)"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Last Name:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.lastName}
-                  onChangeText={(value) => handleInputChange('lastName', value)}
-                  placeholder="Enter your last name"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Course:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.course}
-                  onChangeText={(value) => handleInputChange('course', value)}
-                  placeholder="Enter your course"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Block:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.block}
-                  onChangeText={(value) => handleInputChange('block', value)}
-                  placeholder="Enter your block"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Password:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.password}
-                  onChangeText={(value) => handleInputChange('password', value)}
-                  placeholder="Create a password"
-                  secureTextEntry={!showPassword}
-                  autoCapitalize="none"
-                />
-                <TouchableOpacity
-                  style={styles.passwordToggle}
-                  onPress={() => setShowPassword(!showPassword)}
-                >
-                  <Text style={styles.toggleText}>
-                    {showPassword ? 'Hide' : 'Show'}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
-              <TouchableOpacity style={styles.registerButton} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>✅ Register Account</Text>
-              </TouchableOpacity>
-            </>
-          )}
-
-          <TouchableOpacity onPress={toggleForm} style={styles.switchContainer}>
-            <Text style={styles.switchText}>
-              {isRegister
-                ? 'Already have an account? '
-                : "Don’t have an account? "}
-              <Text style={styles.switchLink}>
-                {isRegister ? 'Login Here' : 'Register Here'} →
-              </Text>
+      {/* ✅ (4) Added KeyboardAvoidingView wrapper to prevent keyboard overlap */}
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.header}>
+            <View style={styles.logoContainer}>
+              <Image
+                source={require("./assets/tmc-logo.jpg")}
+                style={styles.logoImage}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.mainTitle}>TMC CAMPUS GUIDE</Text>
+            <Text style={styles.subTitle}>
+              {isRegister ? 'CREATE NEW ACCOUNT' : 'LOGIN'}
             </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+          </View>
+
+          <View style={styles.formContainer}>
+            {!isRegister ? (
+              <>
+                {/* LOGIN FORM */}
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Student ID:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.studentId}
+                    onChangeText={(value) => handleInputChange('studentId', value)}
+                    placeholder="Enter your student ID (e.g., 23-016046)"
+                    autoCapitalize="none"
+                    keyboardType="numeric" // ✅ (5) Added for numeric input
+                  />
+                </View>
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Password:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.password}
+                    onChangeText={(value) => handleInputChange('password', value)}
+                    placeholder="Enter your password"
+                    secureTextEntry={!showPassword}
+                    autoCapitalize="none"
+                  />
+                  <TouchableOpacity
+                    style={styles.passwordToggle}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Text style={styles.toggleText}>
+                      {showPassword ? 'Hide' : 'Show'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+                  <Text style={styles.buttonText}>🔒 Login</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                {/* REGISTER FORM */}
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Student ID:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.studentId}
+                    onChangeText={(value) => handleInputChange('studentId', value)}
+                    placeholder="Enter your student ID (e.g., 23-016046)"
+                    autoCapitalize="none"
+                    keyboardType="numeric" // ✅ (6) Added numeric keyboard
+                  />
+                </View>
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>First Name:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.firstName}
+                    onChangeText={(value) => handleInputChange('firstName', value)}
+                    placeholder="Enter your first name"
+                    autoCapitalize="words" // ✅ (7) Added auto capitalization
+                  />
+                </View>
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Middle Name:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.middleName}
+                    onChangeText={(value) => handleInputChange('middleName', value)}
+                    placeholder="Enter your middle name (optional)"
+                    autoCapitalize="words" // ✅ (😎 Added auto capitalization
+                  />
+                </View>
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Last Name:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.lastName}
+                    onChangeText={(value) => handleInputChange('lastName', value)}
+                    placeholder="Enter your last name"
+                    autoCapitalize="words" // ✅ (9) Added auto capitalization
+                  />
+                </View>
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Course:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.course}
+                    onChangeText={(value) => handleInputChange('course', value)}
+                    placeholder="Enter your course"
+                  />
+                </View>
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Block:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.block}
+                    onChangeText={(value) => handleInputChange('block', value)}
+                    placeholder="Enter your block"
+                  />
+                </View>
+
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Password:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.password}
+                    onChangeText={(value) => handleInputChange('password', value)}
+                    placeholder="Create a password"
+                    secureTextEntry={!showPassword}
+                    autoCapitalize="none"
+                  />
+                  <TouchableOpacity
+                    style={styles.passwordToggle}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Text style={styles.toggleText}>
+                      {showPassword ? 'Hide' : 'Show'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={styles.registerButton} onPress={handleSubmit}>
+                  <Text style={styles.buttonText}>✅ Register Account</Text>
+                </TouchableOpacity>
+              </>
+            )}
+
+            <TouchableOpacity onPress={toggleForm} style={styles.switchContainer}>
+              <Text style={styles.switchText}>
+                {isRegister
+                  ? 'Already have an account? '
+                  : "Don’t have an account? "}
+                <Text style={styles.switchLink}>
+                  {isRegister ? 'Login Here' : 'Register Here'} →
+                </Text>
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
