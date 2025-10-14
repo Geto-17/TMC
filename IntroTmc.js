@@ -25,7 +25,6 @@ export default function IntroTmc(){
             <TouchableOpacity 
                 style={styles.button} 
                 onPress={() => navigation.navigate('Onboarding')}>
-                    
             <Text style={styles.buttonText}>Let's Get Started</Text>
             </TouchableOpacity>
 

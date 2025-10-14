@@ -8,19 +8,19 @@ import {
   Alert,
   Image,
   ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 export default function LoginScreen({ navigation }) {
   const [isRegister, setIsRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
+    studentId: '',
     firstName: '',
     middleName: '',
     lastName: '',
     course: '',
     block: '',
-    email: '',
     password: '',
   });
 
@@ -29,27 +29,43 @@ export default function LoginScreen({ navigation }) {
   };
 
   const handleSubmit = () => {
-    if (isRegister) {
-      const fullName = `${formData.firstName} ${formData.middleName} ${formData.lastName}`.trim();
-      Alert.alert('Register Success', `Register: ${fullName} - ${formData.course} - ${formData.block} - ${formData.email}`);
-      // Optionally: navigation.navigate('Home') or similar after real API call
-    } else {
-      Alert.alert('Login Success', `Login: ${formData.username} - ${formData.password}`);
-      // Optionally: navigation.navigate('Home') or similar after real API call
+  if (isRegister) {
+    const fullName = `${formData.firstName} ${formData.middleName} ${formData.lastName}`.trim();
+
+    if (
+      !formData.studentId ||
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.course ||
+      !formData.block ||
+      !formData.password
+    ) {
+      Alert.alert('Registration Failed', 'Please fill out all required fields.');
+      return;
     }
-  };
+
+    Alert.alert('Registration Successful ✅', `Welcome, ${fullName}!`);
+    // Optionally: navigation.navigate('Home');
+  } else {
+    if (formData.studentId && formData.password) {
+      Alert.alert('Access Granted 🎓', 'Welcome to TMC Campus Guide!');
+      // Optionally: navigation.navigate('Home');
+    } else {
+      Alert.alert('Invalid Credentials', 'Please check your Student ID and Password.');
+    }
+  }
+};
+
 
   const toggleForm = () => {
     setIsRegister(!isRegister);
-    // Reset form data when switching if needed
     setFormData({
-      username: '',
+      studentId: '',
       firstName: '',
       middleName: '',
       lastName: '',
       course: '',
       block: '',
-      email: '',
       password: '',
     });
     setShowPassword(false);
@@ -64,7 +80,6 @@ export default function LoginScreen({ navigation }) {
       >
         {/* Header */}
         <View style={styles.header}>
-          {/* Circular Logo Area */}
           <View style={styles.logoContainer}>
             <Image
               source={require("./assets/tmc-logo.jpg")}
@@ -81,15 +96,15 @@ export default function LoginScreen({ navigation }) {
         {/* Form */}
         <View style={styles.formContainer}>
           {!isRegister ? (
-            // Login Form
+            // LOGIN FORM
             <>
               <View style={styles.inputGroup}>
-                <Text style={styles.label}>Username:</Text>
+                <Text style={styles.label}>Student ID:</Text>
                 <TextInput
                   style={styles.input}
-                  value={formData.username}
-                  onChangeText={(value) => handleInputChange('username', value)}
-                  placeholder="Enter your username"
+                  value={formData.studentId}
+                  onChangeText={(value) => handleInputChange('studentId', value)}
+                  placeholder="Enter your student ID (e.g., 23-016046)"
                   autoCapitalize="none"
                 />
               </View>
@@ -119,8 +134,19 @@ export default function LoginScreen({ navigation }) {
               </TouchableOpacity>
             </>
           ) : (
-            // Register Form
+            // REGISTER FORM
             <>
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Student ID:</Text>
+                <TextInput
+                  style={styles.input}
+                  value={formData.studentId}
+                  onChangeText={(value) => handleInputChange('studentId', value)}
+                  placeholder="Enter your student ID (e.g., 23-016046)"
+                  autoCapitalize="none"
+                />
+              </View>
+
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>First Name:</Text>
                 <TextInput
@@ -172,24 +198,12 @@ export default function LoginScreen({ navigation }) {
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.label}>Email:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.email}
-                  onChangeText={(value) => handleInputChange('email', value)}
-                  placeholder="Enter your email"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
                 <Text style={styles.label}>Password:</Text>
                 <TextInput
                   style={styles.input}
                   value={formData.password}
                   onChangeText={(value) => handleInputChange('password', value)}
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                   secureTextEntry={!showPassword}
                   autoCapitalize="none"
                 />
@@ -209,7 +223,7 @@ export default function LoginScreen({ navigation }) {
             </>
           )}
 
-          {/* Switch Link */}
+          {/* Switch between Login/Register */}
           <TouchableOpacity onPress={toggleForm} style={styles.switchContainer}>
             <Text style={styles.switchText}>
               {isRegister
@@ -229,7 +243,7 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0044ff', // Matches your Onboarding blue theme
+    backgroundColor: '#0044ff',
   },
   scrollContent: {
     flexGrow: 1,
@@ -245,8 +259,8 @@ const styles = StyleSheet.create({
   logoContainer: {
     width: 96,
     height: 96,
-    backgroundColor: '#ffcc00', // Yellow theme
-    borderRadius: 48, // Circular
+    backgroundColor: '#ffcc00',
+    borderRadius: 48,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
@@ -261,19 +275,19 @@ const styles = StyleSheet.create({
   logoImage: {
     width: 64,
     height: 64,
-    borderRadius: 32, // Keep circular if logo is square
+    borderRadius: 32,
   },
   mainTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#ffcc00', // Yellow
+    color: '#ffcc00',
     marginBottom: 8,
     textAlign: 'center',
   },
   subTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#fff', // White for contrast on blue bg
+    color: '#fff',
     textAlign: 'center',
   },
   formContainer: {
@@ -286,7 +300,7 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 10,
     borderWidth: 1,
-    borderColor: '#bfdbfe', // Light blue border
+    borderColor: '#bfdbfe',
   },
   inputGroup: {
     marginBottom: 20,
@@ -294,30 +308,30 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#1d4ed8', // Blue theme
+    color: '#1d4ed8',
     marginBottom: 8,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#bfdbfe', // Light blue
+    borderColor: '#bfdbfe',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
-    backgroundColor: '#eff6ff', // Light blue bg
+    backgroundColor: '#eff6ff',
   },
   passwordToggle: {
     position: 'absolute',
     right: 16,
-    top: 40, // Adjust based on input padding
+    top: 40,
     padding: 4,
   },
   toggleText: {
     fontSize: 14,
-    color: '#2563eb', // Blue
+    color: '#2563eb',
   },
   loginButton: {
-    backgroundColor: '#ffcc00', // Yellow
+    backgroundColor: '#ffcc00',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -329,7 +343,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   registerButton: {
-    backgroundColor: '#ffcc00', // Yellow for consistency
+    backgroundColor: '#ffcc00',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -343,22 +357,22 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#1e40af', // Dark blue text on yellow
+    color: '#1e40af',
   },
   switchContainer: {
     alignItems: 'center',
     marginTop: 24,
     paddingTop: 16,
     borderTopWidth: 1,
-    borderTopColor: '#bfdbfe', // Light blue
+    borderTopColor: '#bfdbfe',
   },
   switchText: {
     fontSize: 16,
-    color: '#2563eb', // Blue
+    color: '#2563eb',
     textAlign: 'center',
   },
   switchLink: {
-    color: '#ffcc00', // Yellow for link
+    color: '#ffcc00',
     fontWeight: '500',
   },
 });
