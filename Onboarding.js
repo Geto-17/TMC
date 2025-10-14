@@ -58,9 +58,7 @@ export default function Onboarding({ navigation }) {
           })}
         </View>
 
-        <TouchableOpacity style={styles.letGoButton} onPress={handleLetGo}>
-          <Text style={styles.letGoButtonText}>Let's Go!</Text>
-        </TouchableOpacity>
+        
       </ScrollView>
     </View>
   );
