@@ -8,6 +8,8 @@ export default function Onboarding({ navigation }) {
       title: "Interactive Campus Map",
       description: "Easily locate buildings, classrooms, and facilities across the campus.",
       color: '#4CAF50',
+      
+      
     },
     {
       icon: '🔍',
