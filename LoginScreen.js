@@ -23,6 +23,7 @@ export default function LoginScreen({ navigation }) {
     block: '',
     password: '',
   });
+  
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -45,11 +46,11 @@ export default function LoginScreen({ navigation }) {
     }
 
     Alert.alert('Registration Successful ✅', `Welcome, ${fullName}!`);
-    // Optionally: navigation.navigate('Home');
+
   } else {
     if (formData.studentId && formData.password) {
       Alert.alert('Access Granted 🎓', 'Welcome to TMC Campus Guide!');
-      // Optionally: navigation.navigate('Home');
+
     } else {
       Alert.alert('Invalid Credentials', 'Please check your Student ID and Password.');
     }
@@ -78,7 +79,6 @@ export default function LoginScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Header */}
         <View style={styles.header}>
           <View style={styles.logoContainer}>
             <Image
@@ -93,10 +93,9 @@ export default function LoginScreen({ navigation }) {
           </Text>
         </View>
 
-        {/* Form */}
         <View style={styles.formContainer}>
           {!isRegister ? (
-            // LOGIN FORM
+
             <>
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Student ID:</Text>
@@ -134,7 +133,7 @@ export default function LoginScreen({ navigation }) {
               </TouchableOpacity>
             </>
           ) : (
-            // REGISTER FORM
+
             <>
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Student ID:</Text>
@@ -223,7 +222,6 @@ export default function LoginScreen({ navigation }) {
             </>
           )}
 
-          {/* Switch between Login/Register */}
           <TouchableOpacity onPress={toggleForm} style={styles.switchContainer}>
             <Text style={styles.switchText}>
               {isRegister
