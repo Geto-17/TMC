@@ -79,23 +79,26 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#fefefe', // softer white for realism
     textAlign: 'center',
     marginBottom: 10,
+    textShadowColor: 'rgba(0, 0, 0, 0.3)', // adds slight depth
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
   subtitle: {
     fontSize: 16,
-    color: '#fff',
+    color: '#e0e0e0', // light gray for a more realistic tone
     textAlign: 'center',
     marginBottom: 40,
-    opacity: 0.9,
+    opacity: 0.95,
   },
   featuresContainer: {
     marginBottom: 30,
   },
   featureCard: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
@@ -123,12 +126,12 @@ const styles = StyleSheet.create({
   featureTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#222222', // realistic dark gray instead of flat black
     marginBottom: 4,
   },
   featureDescription: {
     fontSize: 14,
-    color: '#666',
+    color: '#4f4f4f', // softer dark gray for smoother contrast
     lineHeight: 20,
   },
   letGoButton: {
@@ -146,6 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#333',
+    color: '#1a1a1a', // darker but not pure black — more realistic
+    letterSpacing: 0.5,
   },
 });
