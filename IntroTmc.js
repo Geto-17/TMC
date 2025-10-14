@@ -35,7 +35,7 @@ export default function IntroTmc(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#D7A028",
+        backgroundColor: "#4863A0",
         alignItems: "center",
         justifyContent: "center",
         padding: 20,
