@@ -1,3 +1,5 @@
+
+
 import React from "react";
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
@@ -42,16 +44,21 @@ const styles = StyleSheet.create({
     },
 
     logoContainer: {
-        width: 130,
-        height: 130,
-        borderRadius: 65,
+        width: 150,
+        height: 150,
+        borderRadius: 75,
         borderWidth: 4,
-        borderColor: "#2563eb",
+        borderColor: "#1e3a8a", // deeper blue border
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#fff",
-        marginBottom: 20,
+        marginBottom: 25,
         overflow: "hidden",
+        shadowColor: "#000",
+        shadowOpacity: 0.4,
+        shadowOffset: { width: 0, height: 3 },
+        shadowRadius: 6,
+        elevation: 6,
     },
 
     logo : {
@@ -63,13 +70,13 @@ const styles = StyleSheet.create({
     title:{
         fontSize: 28,
         fontWeight: "bold",
-        color: "#ffffffff",
+        color: "#000000", // darker black
         marginBottom: 12,
     },
 
     description: {
         fontSize: 16,
-        color: "#ffffffff",
+        color: "#000000", // darker black for better readability
         textAlign: "center",
         marginHorizontal: 10,
         marginBottom: 24,
