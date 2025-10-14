@@ -1,35 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import IntroTmc from './IntroTmc';
-import Onboarding from './Onboarding';
 import LoginScreen from './LoginScreen';
+import Onboarding from './Onboarding';
+import WelcomeScreen from './WelcomeScreen';
 
 const Stack = createStackNavigator();
-
 
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="IntroTmc">
-        <Stack.Screen 
-          name="IntroTmc" 
+        <Stack.Screen
+          name="IntroTmc"
           component={IntroTmc}
           options={{ headerShown: false }}
         />
-        <Stack.Screen 
-          name="Onboarding" 
-          component={Onboarding}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen 
-          name="LoginScreen" 
+        <Stack.Screen
+          name="LoginScreen"
           component={LoginScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="Onboarding"
+          component={Onboarding}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="WelcomeScreen"
+          component={WelcomeScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
-      <StatusBar style="auto" />
     </NavigationContainer>
   );
 }
