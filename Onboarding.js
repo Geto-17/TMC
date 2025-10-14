@@ -7,7 +7,7 @@ export default function Onboarding({ navigation }) {
       icon: '📍',
       title: "Interactive Campus Map",
       description: "Easily locate buildings, classrooms, and facilities across the campus.",
-      color: '#4CAF50',
+      color: '#233A66',
       
       
     },
@@ -15,19 +15,19 @@ export default function Onboarding({ navigation }) {
       icon: '🔍',
       title: "Quick Search",
       description: "Find faculty, departments, or places instantly with our smart search feature.",
-      color: '#2196F3',
+      color: '#233A66',
     },
     {
       icon: '📚',
       title: "Study Spots",
       description: "Discover the best places around campus to focus and study comfortably.",
-      color: '#FF9800',
+      color: '#233A66',
     },
     {
       icon: '🧭',
       title: "Easy Navigation",
       description: "Get step-by-step directions to anywhere on campus with our GPS-guided routes.",
-      color: '#9C27B0',
+      color: '#233A66',
     },
   ];
 
@@ -71,7 +71,7 @@ export default function Onboarding({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4863A0',
+    backgroundColor: '#233A66',
   },
   scrollContent: {
     padding: 20,
@@ -81,13 +81,13 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#FFD691',
     textAlign: 'center',
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 16,
-    color: '#fff',
+    color: '#D7D7D7',
     textAlign: 'center',
     marginBottom: 40,
     opacity: 0.9,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   featureCard: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#D7D7D7',
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   letGoButton: {
-    backgroundColor: '#F5EACF',
+    backgroundColor: '#FFD691',
     padding: 18,
     borderRadius: 12,
     marginTop: 10,
@@ -148,6 +148,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#333',
+    color: '#233A66',
   },
 });

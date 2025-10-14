@@ -218,7 +218,7 @@ export default function LoginScreen({ navigation }) {
               </View>
 
               <TouchableOpacity style={styles.registerButton} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>✅ Register Account</Text>
+                <Text style={styles.buttonText}>Register Account</Text>
               </TouchableOpacity>
             </>
           )}
@@ -243,7 +243,7 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0044ff',
+    backgroundColor: '#233A66',
   },
   scrollContent: {
     flexGrow: 1,
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
   logoContainer: {
     width: 96,
     height: 96,
-    backgroundColor: '#ffcc00',
+    backgroundColor: '#fff',
     borderRadius: 48,
     justifyContent: 'center',
     alignItems: 'center',
@@ -269,29 +269,29 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
-    borderWidth: 4,
-    borderColor: '#fff',
+    borderWidth: 7,
+    borderColor: '#FFD691',
   },
   logoImage: {
-    width: 64,
-    height: 64,
+    width: 68,
+    height: 68,
     borderRadius: 32,
   },
   mainTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#ffcc00',
+    color: '#fff',
     marginBottom: 8,
     textAlign: 'center',
   },
   subTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#fff',
+    color: '#FFD691',
     textAlign: 'center',
   },
   formContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: '#D7D7D7',
     borderRadius: 20,
     padding: 24,
     shadowColor: '#000',
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#1d4ed8',
+    color: '#233A66',
     marginBottom: 8,
   },
   input: {
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     color: '#2563eb',
   },
   loginButton: {
-    backgroundColor: '#ffcc00',
+    backgroundColor: '#FFD691',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   registerButton: {
-    backgroundColor: '#ffcc00',
+    backgroundColor: '#FFD691',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#1e40af',
+    color: '#233A66',
   },
   switchContainer: {
     alignItems: 'center',
@@ -368,11 +368,11 @@ const styles = StyleSheet.create({
   },
   switchText: {
     fontSize: 16,
-    color: '#2563eb',
+    color: '#233A66',
     textAlign: 'center',
   },
   switchLink: {
-    color: '#ffcc00',
+    color: '#2563eb',
     fontWeight: '500',
   },
 });

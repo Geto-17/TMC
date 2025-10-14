@@ -35,7 +35,7 @@ export default function IntroTmc(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#4863A0",
+        backgroundColor: "#233A66",
         alignItems: "center",
         justifyContent: "center",
         padding: 20,
@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
         width: 130,
         height: 130,
         borderRadius: 65,
-        borderWidth: 4,
-        borderColor: "#FFFFFF",
+        borderWidth: 7,
+        borderColor: "#ffffff",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#fff",
+        backgroundColor: "#FFD691",
         marginBottom: 20,
         overflow: "hidden",
     },
@@ -63,20 +63,20 @@ const styles = StyleSheet.create({
     title:{
         fontSize: 28,
         fontWeight: "bold",
-        color: "#ffffffff",
+        color: "#FFD691",
         marginBottom: 12,
     },
 
     description: {
         fontSize: 16,
-        color: "#ffffffff",
+        color: "#D7D7D7",
         textAlign: "center",
         marginHorizontal: 10,
         marginBottom: 24,
     },
 
     button: {
-        backgroundColor: "#F5EACF",
+        backgroundColor: "#FFD691",
         paddingVertical: 12,
         paddingHorizontal: 28,
         borderRadius: 12,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     },
 
     buttonText: {
-        color: "#000",
+        color: "#233A66",
         fontWeight: "600",
         fontSize: 16,
     },
