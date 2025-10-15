@@ -141,7 +141,7 @@ export default function LoginScreen({ navigation }) {
                   style={styles.input}
                   value={formData.studentId}
                   onChangeText={(value) => handleInputChange('studentId', value)}
-                  placeholder="Enter your student ID (e.g., 23-016046)"
+                  placeholder="Enter your student ID (e.g., 23-017001)"
                   autoCapitalize="none"
                 />
               </View>
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   switchLink: {
-    color: '#ffcc00',
+    color: '#000000',
     fontWeight: '500',
   },
 });
