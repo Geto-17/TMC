@@ -49,7 +49,16 @@ export default function LoginScreen({ navigation }) {
 
   } else {
     if (formData.studentId && formData.password) {
-      Alert.alert('Access Granted 🎓', 'Welcome to TMC Campus Guide!');
+      Alert.alert(
+  'Access Granted 🎓',
+  'Welcome to TMC Campus Guide!',
+  [
+    {
+      text: 'OK',
+      onPress: () => navigation.replace('Dashboard'),
+    },
+  ]
+);
 
     } else {
       Alert.alert('Invalid Credentials', 'Please check your Student ID and Password.');
