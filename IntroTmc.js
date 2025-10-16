@@ -49,6 +49,11 @@ export default function IntroTmc() {
       >
         <Text style={styles.buttonText}>Let's Get Started</Text>
       </TouchableOpacity>
+
+    
+      <Text style={styles.footerText}>
+        Version 1.0.0 • Developed by TMC Dev Team
+      </Text>
     </View>
   );
 }
@@ -111,5 +116,14 @@ const styles = StyleSheet.create({
     color: "#000",
     fontWeight: "600",
     fontSize: 16,
+  },
+
+
+  footerText: {
+    position: "absolute",
+    bottom: 20,
+    color: "#ffffffaa",
+    fontSize: 12,
+    textAlign: "center",
   },
 });
