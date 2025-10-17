@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  ImageBackground,
+  Image,
+} from 'react-native';
 
 export default function Onboarding({ navigation }) {
   const features = [
@@ -34,19 +42,37 @@ export default function Onboarding({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        <Text style={styles.mainTitle}>TMC Campus Guide</Text>
-        <Text style={styles.subtitle}>Your all-in-one app for campus life</Text>
+  
+    <ImageBackground
+      source={require('./assets/TMC_BG.jpg')} 
+      style={styles.background}
+      resizeMode="cover"
+    >
+    
+      <View style={styles.overlay}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+        
+          <View style={styles.logoContainer}>
+            <Image
+              source={require('./assets/tmc-logo.jpg')} 
+              style={styles.logo}
+            />
+          </View>
 
-        <View style={styles.featuresContainer}>
-          {features.map((feature, index) => {
-            return (
+        
+          <Text style={styles.mainTitle}>TMC Campus Guide</Text>
+          <Text style={styles.subtitle}>Your all-in-one app for campus life</Text>
+
+        
+          <View style={styles.featuresContainer}>
+            {features.map((feature, index) => (
               <View key={index} style={styles.featureCard}>
-                <View style={[styles.iconContainer, { backgroundColor: feature.color }]}>
+                <View
+                  style={[styles.iconContainer, { backgroundColor: feature.color }]}
+                >
                   <Text style={styles.iconEmoji}>{feature.icon}</Text>
                 </View>
                 <View style={styles.featureTextContainer}>
@@ -54,28 +80,49 @@ export default function Onboarding({ navigation }) {
                   <Text style={styles.featureDescription}>{feature.description}</Text>
                 </View>
               </View>
-            );
-          })}
-        </View>
+            ))}
+          </View>
 
-        <TouchableOpacity style={styles.letGoButton} onPress={handleLetGo}>
-          <Text style={styles.letGoButtonText}>Let's Go!</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
+          
+          <TouchableOpacity style={styles.letGoButton} onPress={handleLetGo}>
+            <Text style={styles.letGoButtonText}>Let's Go!</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  
+  background: {
     flex: 1,
-    backgroundColor: '#0044ff',
+    width: '100%',
+    height: '100%',
   },
+
+
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 139, 0.7)', 
+  },
+
   scrollContent: {
     padding: 20,
     paddingTop: 60,
     paddingBottom: 40,
   },
+
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+
   mainTitle: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -90,6 +137,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     opacity: 0.9,
   },
+
   featuresContainer: {
     marginBottom: 30,
   },
@@ -131,6 +179,8 @@ const styles = StyleSheet.create({
     color: '#666',
     lineHeight: 20,
   },
+
+  
   letGoButton: {
     backgroundColor: '#ffcc00',
     padding: 18,
