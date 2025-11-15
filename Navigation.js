@@ -5,12 +5,17 @@ export default function Navigation() {
   const mainCampus = [
     "CL-01",
     "CL-02",
+    "CL-03",
+    "CL-04",
     "M-101",
     "M-102",
     "M-103",
+    "M-104",
     "M-105",
     "M-206",
     "M-207",
+    "M-108",
+    "M-109",
     "Speech Lab",
     "Chem Lab",
     "Registrar",
@@ -69,7 +74,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#0044ff",
+  color: "#191970",
     marginBottom: 8,
   },
   description: {
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
   campusTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#0044ff",
+  color: "#191970",
     marginBottom: 12,
   },
   roomsGrid: {
@@ -110,6 +115,6 @@ const styles = StyleSheet.create({
   roomTagText: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#0044ff",
+  color: "#191970",
   },
 });

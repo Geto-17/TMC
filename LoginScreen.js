@@ -9,7 +9,11 @@ import {
   Alert,
   ScrollView,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
+import { API_BASE } from "./config";
+import Dropdown from "./components/Dropdown";
 
 export default function LoginScreen({ navigation }) {
   const [isRegister, setIsRegister] = useState(false);
@@ -22,10 +26,11 @@ export default function LoginScreen({ navigation }) {
     lastName: "",
     course: "",
     block: "",
+    gender: "",
     password: "",
   });
 
-  const API_BASE = "http://10.196.44.129:3000"; // Update to your IP if needed
+  // API_BASE imported from ./config.js (set to your machine LAN IP or emulator host)
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -39,6 +44,7 @@ export default function LoginScreen({ navigation }) {
       lastName: "",
       course: "",
       block: "",
+      gender: "",
       password: "",
     });
   };
@@ -131,7 +137,11 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+      keyboardVerticalOffset={40}
+    >
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -196,7 +206,7 @@ export default function LoginScreen({ navigation }) {
                 disabled={loading}
               >
                 {loading ? (
-                  <ActivityIndicator color="#0044ff" size="small" />
+                  <ActivityIndicator color="#0033cc" size="small" />
                 ) : (
                   <Text style={styles.buttonText}>Login</Text>
                 )}
@@ -205,25 +215,87 @@ export default function LoginScreen({ navigation }) {
           ) : (
             <>
               {/* REGISTER FORM */}
-              {[
-                ["studentId", "Student ID"],
-                ["firstName", "First Name"],
-                ["middleName", "Middle Name (optional)"],
-                ["lastName", "Last Name"],
-                ["course", "Course"],
-                ["block", "Block"],
-              ].map(([field, label]) => (
-                <View key={field} style={styles.inputGroup}>
-                  <Text style={styles.label}>{label}:</Text>
-                  <TextInput
-                    style={styles.input}
-                    value={formData[field]}
-                    onChangeText={(v) => handleInputChange(field, v)}
-                    placeholder={`Enter your ${label.toLowerCase()}`}
-                    editable={!loading}
-                  />
-                </View>
-              ))}
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Student ID:</Text>
+                <TextInput
+                  style={styles.input}
+                  value={formData.studentId}
+                  onChangeText={(v) => handleInputChange('studentId', v)}
+                  placeholder="Enter your student ID (e.g., 23-016046)"
+                  autoCapitalize="none"
+                  editable={!loading}
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>First Name:</Text>
+                <TextInput
+                  style={styles.input}
+                  value={formData.firstName}
+                  onChangeText={(v) => handleInputChange('firstName', v)}
+                  placeholder="Enter your first name"
+                  editable={!loading}
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Middle Name (optional):</Text>
+                <TextInput
+                  style={styles.input}
+                  value={formData.middleName}
+                  onChangeText={(v) => handleInputChange('middleName', v)}
+                  placeholder="Enter your middle name"
+                  editable={!loading}
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Last Name:</Text>
+                <TextInput
+                  style={styles.input}
+                  value={formData.lastName}
+                  onChangeText={(v) => handleInputChange('lastName', v)}
+                  placeholder="Enter your last name"
+                  editable={!loading}
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Gender:</Text>
+                <Dropdown
+                  label="Gender"
+                  options={["Male", "Female"]}
+                  selected={formData.gender}
+                  onSelect={(v) => handleInputChange('gender', v)}
+                  placeholder="Select gender"
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Course:</Text>
+                <Dropdown
+                  label="Course"
+                  options={["BSIT", "BSCRIM", "BOED", "BSOA", "POLSCI"]}
+                  selected={formData.course}
+                  onSelect={(v) => handleInputChange('course', v)}
+                  placeholder="Select course"
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Block:</Text>
+                <Dropdown
+                  label="Block"
+                  options={
+                    formData.course === 'BSIT'
+                      ? ['Block 1', 'Block 2', 'Block 3', 'Block 4', 'Block 5']
+                      : ['Block 1', 'Block 2', 'Block 3']
+                  }
+                  selected={formData.block}
+                  onSelect={(v) => handleInputChange('block', v)}
+                  placeholder="Select block"
+                />
+              </View>
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Password:</Text>
@@ -279,18 +351,18 @@ export default function LoginScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0044ff" },
+  container: { flex: 1, backgroundColor: "#191970" },
   scrollContent: {
     flexGrow: 1,
     padding: 20,
-    paddingTop: 60,
-    paddingBottom: 40,
-    justifyContent: "center",
+    paddingTop: 30,
+    paddingBottom: 20,
+    justifyContent: "flex-start",
   },
   logoContainer: {
         width: 130,
@@ -312,7 +384,7 @@ const styles = StyleSheet.create({
     },
   header: { alignItems: "center", marginBottom: 40 },
   
-  logoText: { fontSize: 48, fontWeight: "bold", color: "#0044ff" },
+  logoText: { fontSize: 48, fontWeight: "bold", color: "#191970" },
   mainTitle: { fontSize: 28, fontWeight: "bold", color: "#ffcc00", marginBottom: 8 },
   subTitle: { fontSize: 20, fontWeight: "600", color: "#fff" },
   formContainer: {
@@ -345,7 +417,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   registerButton: {
-    backgroundColor: "#0044ff",
+    backgroundColor: "#191970",
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: "center",

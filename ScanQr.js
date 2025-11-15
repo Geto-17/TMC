@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   scanBox: {
     width: 120,
     height: 120,
-    backgroundColor: "#0044ff",
+  backgroundColor: "#191970",
     borderRadius: 60,
     justifyContent: "center",
     alignItems: "center",
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#0044ff",
+  color: "#191970",
     marginBottom: 12,
     textAlign: "center",
   },
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   featureTitle: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#0044ff",
+  color: "#191970",
     marginBottom: 10,
   },
   featureLine: {
