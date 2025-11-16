@@ -1,0 +1,11 @@
+Room: E-101
+Direction: Go to the extension room, you’ll see the first door on the left.
+
+
+Block                  Time Slot                             Subject                                    Instructor
+ 
+Block 1                7:00 AM - 8:00 AM                     Computer Concepts                          Mrs. Mercy Cutanda
+Block 2                8:00 AM - 9:00 AM                     Purposive Communication                    Ms. Danica Reyes
+Block 3                10:00 AM - 11:00 AM                   Computer Programming 1                     Mr. Julius Ortega
+Block 4                1:00 PM - 2:00 PM                     PE 1 – Physical Fitness                    Mrs. Elaine Santiago 
+Block 5                3:00 PM - 4:00 PM                     Ethics                                     Mr. Carlo Mendoza             

@@ -1,0 +1,10 @@
+M-203
+Location: Second floor, middle section of the corridor.
+
+Schedule    Schedule          Subject                 Instructor
+
+Block 1     7:00–8:00 AM      Philippine History      Mr. Cabahug
+Block 2     8:00–9:00 AM      Social Science          Ms. Daligdig
+Block 3     9:00–10:00 AM     Values Education        Fr. Ramirez
+Block 4     10:00–11:00 AM    Ethics                  Mr. Bautista
+Block 5     11:00–12:00 PM    NSTP Lecture            Ms. Amora

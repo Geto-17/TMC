@@ -263,7 +263,7 @@ export default function LoginScreen({ navigation }) {
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Gender:</Text>
                 <Dropdown
-                  label="Gender"
+                    label="Gender"
                   options={["Male", "Female"]}
                   selected={formData.gender}
                   onSelect={(v) => handleInputChange('gender', v)}

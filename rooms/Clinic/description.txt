@@ -1,0 +1,4 @@
+Clinic 
+
+A school medical room where students can receive first aid, health assessment, and temporary medical care.
+It is staffed by nurses or healthcare personnel who handle injuries, check vital signs, and assist students who feel unwell.

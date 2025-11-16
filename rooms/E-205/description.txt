@@ -1,0 +1,11 @@
+
+Room: E-205
+Location: Room E-205 — the next room in the hallway.
+
+Block                  Time Slot                             Subject                                    Instructor
+ 
+Block 1                7:00 AM - 8:00 AM                     Tourism Planning & Development             Ms. Alyssa Duran
+Block 2                8:00 AM - 9:00 AM                     Anatomy & Physiology                       Mrs. Rina Fernandez
+Block 3                9:00 AM - 10:00 AM                    Introduction to Criminology                Mr. Brian Cortez
+Block 4                10:00 AM - 11:00 AM                   General Biology                            Mr. Paolo Villanueva
+Block 5                1:00 PM - 2:00 PM                     PE 1 – Physical Fitness                    Mr. Carlo Aquino           

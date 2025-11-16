@@ -1,0 +1,8 @@
+M-105
+Location: Second floor, Second room from the main staircase on the left side of the hallway.
+
+BLOCK: 		TIME SLOT           Subject 				Instructor
+
+Block 1		7:00–8:00 AM	    Life Skills                         Ms. Chique Viovicente
+Block 2		11:00–12:00 AM	    Statistic & Probability 		Mrs. Dahlia Cajes
+Block 3		2:00–3:00 PM        Environmental  			Mr. Ryan Greg Torreon

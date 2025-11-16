@@ -1,0 +1,11 @@
+
+Room: E-105
+Location: Proceed to Room E-105, beside Room E-104.
+
+Block                  Time Slot                             Subject                                    Instructor
+
+Block 1                7:00 AM - 8:00 AM                     Tourism Planning & Development             Ms. Alyssa Duran
+Block 2                8:00 AM - 9:00 AM                     Educational Psychology                     Ms. Cherry Lao
+Block 3                10:00 AM - 11:00 AM                   Thermodynamics (Engineering)               Mr. Patrick Salazar
+Block 4                1:00 PM - 2:00 PM                     Fundamentals of Nursing                    Mrs. Rina Fernandez
+Block 5                3:00 PM - 4:00 PM                     Platform Technologies                      Mr. Tristan Ramos

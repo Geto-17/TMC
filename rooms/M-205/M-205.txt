@@ -1,0 +1,12 @@
+M-205
+Location: Second floor, right-wing, beside M-206.
+
+Block	     Schedule             Subjects			Instructor
+
+Block 1      7:00–8:00 AM         Oral Communication  		Ms. Gamboa
+Block 2      8:00–9:00 AM         Purposive Communication  	Mr. Diola
+Block 3      9:00–10:00 AM	  English Grammar  		Ms. Lazo
+Block 4      10:00–11:00 AM 	  Reading & Writing Skills  	Ms. Franco
+Block 5      11:00–12:00 PM 	  Speech Practice  		Mr. Ocampo
+
+ 

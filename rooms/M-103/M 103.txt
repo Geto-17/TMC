@@ -1,0 +1,8 @@
+M-103
+Location: Second floor, Second room from the right after coming up the main staircase.
+
+BLOCK: 		TIME SLOT           Subject 	           Instructor
+
+Block 1		2:00–3:00 AM	    Marketing Principle    Mr. Ace Craige
+Block 2		3:00–4:00 AM	    Values Education       Mrs. Zein Shion
+Block 3		4:00–5:00 PM        Algebra      	   Mr. Margareth Devicay

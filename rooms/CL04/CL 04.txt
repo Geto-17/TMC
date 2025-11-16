@@ -1,0 +1,12 @@
+Room: CL-04
+Location: Proceed to the main hall, take the stairs to the second floor, and is the last door on the left.
+
+Block			Time Slot			Subject				Instructor
+
+Block 1                 8:00 Am - 9:00 AM               ICT Trends                      Mr. Franklin Lorican
+Block 2                 9:00 Am - 10:00 AM              Vb.Net Programming              Mr. Mark Emil Dacoylo
+Block 3                 10:00 Am -11:00 AM              Project Management              Mrs. Arcelie Arances
+Block 4                 11:00 Am - 12:00 PM             IT 317                          Ms. Aileen Concon
+Block 5                 1:00 Pm - 2:00 PM               Web Information System          Mr. Christine Joy Yap
+
+

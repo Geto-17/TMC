@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from 'expo-image-manipulator';
 import { API_BASE } from "./config";
 import Dropdown from "./components/Dropdown";
 
@@ -47,40 +48,49 @@ export default function Profile({ student, setStudent }) {
         return;
       }
 
+      // Launch picker without base64 to avoid memory spikes; we'll manipulate the image separately
+      // Determine a safe mediaTypes value that works across expo-image-picker versions
+      const mediaTypes = ImagePicker.MediaType?.Images ?? ImagePicker.MediaTypeOptions?.Images ?? ImagePicker.MediaTypeOptions?.All ?? ImagePicker.MediaTypeOptions?.Images ?? ImagePicker.MediaTypeOptions;
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes,
         allowsEditing: true,
-        quality: 0.6,
-        base64: true,
+        quality: 1,
+        base64: false,
       });
 
       const cancelled = result.cancelled ?? result.canceled ?? false;
-      const base64 = result.base64 ?? result?.assets?.[0]?.base64;
       const pickedUri = result.uri ?? result?.assets?.[0]?.uri;
 
-      if (!cancelled && base64 && pickedUri) {
-        // Build data URI
-        const dataUri = `data:image/jpeg;base64,${base64}`;
-        setAvatarUri(dataUri);
-        // Save base64 avatar directly to DB via update route
+      if (!cancelled && pickedUri) {
         setUploading(true);
         try {
-          const resp = await fetch(`${API_BASE}/update/${student._id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ avatar: dataUri }),
-          });
-          const json = await resp.json();
-          if (resp.ok && json && json.student) {
-            if (typeof setStudent === 'function') setStudent(json.student);
-            Alert.alert('Success', 'Avatar saved');
-          } else {
-            console.error('Avatar save failed', json);
-            Alert.alert('Save failed', (json && json.message) || 'Could not save avatar');
+          // Resize/compress image to a reasonable max width to handle large files gracefully
+          const MAX_WIDTH = 1024; // px
+          const MANIPULATE_QUALITY = 0.75; // 0..1
+
+          const manipResult = await ImageManipulator.manipulateAsync(
+            pickedUri,
+            [{ resize: { width: MAX_WIDTH } }],
+            { compress: MANIPULATE_QUALITY, format: ImageManipulator.SaveFormat.JPEG, base64: true }
+          );
+
+          const resizedBase64 = manipResult.base64;
+          const resizedUri = manipResult.uri;
+
+          // Prefer multipart/form-data upload to avoid JSON body size limits and "request entity too large" errors.
+          // We still keep a quick local preview by setting avatarUri to the resized data URI if available.
+          if (resizedBase64) {
+            const dataUri = `data:image/jpeg;base64,${resizedBase64}`;
+            setAvatarUri(dataUri);
+          } else if (resizedUri) {
+            setAvatarUri(resizedUri);
           }
+
+          // Upload the resized file via multipart form (uploadAvatar handles the POST and updates state on success)
+          await uploadAvatar(resizedUri || pickedUri);
         } catch (err) {
-          console.error('Save avatar error', err);
-          Alert.alert('Error', 'Unable to save avatar');
+          console.error('Image processing/upload error', err);
+          Alert.alert('Error', 'Could not process or upload image');
         } finally {
           setUploading(false);
         }
@@ -266,7 +276,7 @@ export default function Profile({ student, setStudent }) {
           </View>
 
           <View style={styles.editGroup}>
-            <Text style={styles.editLabel}>Course</Text>
+            
             <Dropdown
               label="Course"
               options={["BSIT", "BSCRIM", "BOED", "BSOA", "POLSCI"]}
@@ -277,7 +287,7 @@ export default function Profile({ student, setStudent }) {
           </View>
 
           <View style={styles.editGroup}>
-            <Text style={styles.editLabel}>Block</Text>
+            
             <Dropdown
               label="Block"
               options={
@@ -292,7 +302,7 @@ export default function Profile({ student, setStudent }) {
           </View>
 
           <View style={styles.editGroup}>
-            <Text style={styles.editLabel}>Gender</Text>
+            
             <Dropdown
               label="Gender"
               options={["Male", "Female"]}

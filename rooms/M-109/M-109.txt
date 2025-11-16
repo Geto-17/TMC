@@ -1,0 +1,10 @@
+M-109
+Location: First floor, near the back hallway.
+
+Block       Schedule          Subject                   Instrutor
+
+Block 1     7:00–8:00 AM      PE Lecture                Coach Villamor
+Block 2     8:00–9:00 AM      Health Education          Ms. Catanghal
+Block 3     9:00–10:00 AM     Life Skills               Ms. Bayot
+Block 4     10:00–11:00 AM    Homeroom Guidance         Mr. Quijano
+Block 5     11:00–12:00 PM    Study & Career Pathways   Ms. Requilme

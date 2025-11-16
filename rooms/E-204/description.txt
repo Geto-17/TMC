@@ -1,0 +1,10 @@
+
+Room: E-204
+Location: Proceed to Room E-204, beside Room E-205.
+
+Block                  Time Slot                             Subject                                    Instructor
+Block 1                7:00 AM - 8:00 AM                     Introduction to Philosophy                 Mr. Jerome Santos
+Block 2                8:00 AM - 9:00 AM                     Financial Accounting                       Mr. John Dela Cruz
+Block 3                9:00 AM - 10:00 AM                    Microbiology                               Mrs. Angela Reyes
+Block 4                10:00 AM - 11:00 AM                   Educational Psychology                     Ms. Cherry Lao
+Block 5                1:00 PM - 2:00 PM                     Marketing Management                       Ms. Alyssa Durano 

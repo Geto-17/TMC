@@ -1,0 +1,10 @@
+Room: M-207
+Location: Proceed to the main hall, Go to the back, Then turn right.
+
+Block			Time Slot			Subject				  Instructor
+
+Block 1                 9:00 Am - 10:00 AM              Environmental Science              Mrs. Chique Viovicente  
+Block 2                 2:00 PM - 3:00 PM               Enterpreneurial Mind               Mrs. Danica Alesna 
+Block 3                 4:00 PM -5:00 PM                 Foreign Language                  Angel Curato
+
+							
