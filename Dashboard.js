@@ -1,13 +1,54 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import ScanQr from "./ScanQr";
 import Profile from "./Profile";
 import Navigation from "./Navigation";
 
 export default function Dashboard({ route, navigation }) {
-  const student = route?.params?.student || {};
+  const [student, setStudent] = useState(null);
   const [activeTab, setActiveTab] = useState("home");
+
+  useEffect(() => {
+    // Get student data from route params
+    if (route?.params?.student) {
+      console.log("Student data received:", route.params.student);
+      setStudent(route.params.student);
+    } else {
+      console.log("No student data found!");
+      Alert.alert(
+        "Error",
+        "No student data found. Please login again.",
+        [{ text: "OK", onPress: () => navigation.replace("LoginScreen") }]
+      );
+    }
+  }, [route?.params?.student]);
+
+  // Show loading while waiting for student data
+  if (!student) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Loading...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  const handleLogout = () => {
+    Alert.alert(
+      "Logout",
+      "Are you sure you want to logout?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { 
+          text: "Logout", 
+          style: "destructive",
+          onPress: () => navigation.replace("LoginScreen") 
+        }
+      ]
+    );
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -16,22 +57,22 @@ export default function Dashboard({ route, navigation }) {
           <View style={styles.tabContent}>
             <Text style={styles.greeting}>Welcome</Text>
             <Text style={styles.userName}>
-              {student.firstName} {student.lastName}
+              {student.firstName || "Student"} {student.lastName || ""}
             </Text>
 
             <View style={styles.infoBox}>
               <Text style={styles.infoLabel}>Student ID</Text>
-              <Text style={styles.infoValue}>{student.studentId}</Text>
+              <Text style={styles.infoValue}>{student.studentId || "N/A"}</Text>
             </View>
 
             <View style={styles.infoBox}>
               <Text style={styles.infoLabel}>Course</Text>
-              <Text style={styles.infoValue}>{student.course}</Text>
+              <Text style={styles.infoValue}>{student.course || "N/A"}</Text>
             </View>
 
             <View style={styles.infoBox}>
               <Text style={styles.infoLabel}>Block</Text>
-              <Text style={styles.infoValue}>{student.block}</Text>
+              <Text style={styles.infoValue}>{student.block || "N/A"}</Text>
             </View>
 
             <View style={styles.descriptionBox}>
@@ -47,7 +88,7 @@ export default function Dashboard({ route, navigation }) {
       case "scan":
         return <ScanQr />;
       case "profile":
-        return <Profile student={student} />;
+        return <Profile student={student} navigation={navigation} />;
       default:
         return null;
     }
@@ -58,9 +99,8 @@ export default function Dashboard({ route, navigation }) {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Dashboard</Text>
 
-        {/* ✅ Logout button */}
         <TouchableOpacity
-          onPress={() => navigation.replace("LoginScreen")}
+          onPress={handleLogout}
           style={styles.logoutButton}
         >
           <MaterialIcons name="logout" size={24} color="#fff" />

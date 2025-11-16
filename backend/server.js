@@ -19,6 +19,11 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
+// Root route for testing
+app.get("/", (req, res) => {
+  res.send("Backend is working!");
+});
+
 // Register Route
 app.post("/register", async (req, res) => {
   try {

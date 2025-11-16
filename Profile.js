@@ -10,7 +10,6 @@ import {
   ScrollView,
 } from "react-native";
 
-
 export default function Profile({ student, navigation }) {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,7 +20,8 @@ export default function Profile({ student, navigation }) {
     block: student?.block || "",
   });
 
-  const API_BASE = "http://10.196.44.129:3000";
+  // ⚠️ IMPORTANT: Use the same IP address as in LoginScreen.js
+  const API_BASE = "http://10.0.0.233:3000"; // ⬅️ CHANGE THIS to match your IP!
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -32,17 +32,6 @@ export default function Profile({ student, navigation }) {
       Alert.alert("Error", "Please fill all fields");
       return;
     }
-
-    const handleLogout = () => {
-      Alert.alert(
-    "Logout",
-    "Are you sure you want to log out?",
-    [
-      { text: "Cancel", style: "cancel" },
-      { text: "Logout", onPress: () => navigation.replace("LoginScreen") },
-    ]
-  );
-};
 
     setLoading(true);
     try {
@@ -75,15 +64,14 @@ export default function Profile({ student, navigation }) {
       [
         {
           text: "Cancel",
-          onPress: () => {},
           style: "cancel",
         },
         {
           text: "Logout",
-          onPress: () => {
-            navigation.navigate("LoginScreen");
-          },
           style: "destructive",
+          onPress: () => {
+            navigation.replace("LoginScreen");
+          },
         },
       ],
       { cancelable: false }
@@ -97,9 +85,9 @@ export default function Profile({ student, navigation }) {
       </View>
 
       <Text style={styles.profileName}>
-        {student?.firstName} {student?.lastName}
+        {student?.firstName || "User"} {student?.lastName || ""}
       </Text>
-      <Text style={styles.profileId}>{student?.studentId}</Text>
+      <Text style={styles.profileId}>{student?.studentId || "N/A"}</Text>
 
       {!isEditing ? (
         <>
