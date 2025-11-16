@@ -1,0 +1,8 @@
+M-102
+Location: Second floor, Third room from the right from the main staircase.
+
+BLOCK: 		TIME SLOT           Subject 	             Instructor
+
+Block 1		7:00–8:00 AM	    Business Math            Mr. Rolando poko
+Block 2		10:00–11:00 AM	    Quantitative Reasoning   Mrs. Aimee Roswell
+Block 3		1:00–2:00 PM        Ethics      	     Mr. Maxpein Del Valle

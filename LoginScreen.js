@@ -1,40 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
+  Image,
   TextInput,
   TouchableOpacity,
   StyleSheet,
   Alert,
-  Image,
   ScrollView,
   ActivityIndicator,
-} from 'react-native';
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import { API_BASE } from "./config";
+import Dropdown from "./components/Dropdown";
 
 export default function LoginScreen({ navigation }) {
   const [isRegister, setIsRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    studentId: '',
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    course: '',
-    block: '',
-    password: '',
+    studentId: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    course: "",
+    block: "",
+    gender: "",
+    password: "",
   });
-  
-  // ⚠️ IMPORTANT: Replace this with YOUR computer's IP address
-  const API_BASE = "http://10.0.0.233:3000"; // ⬅️ CHANGE THIS!
+
+  // API_BASE imported from ./config.js (set to your machine LAN IP or emulator host)
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const resetForm = () => {
+    setFormData({
+      studentId: "",
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      course: "",
+      block: "",
+      gender: "",
+      password: "",
+    });
   };
 
   const handleSubmit = async () => {
     if (isRegister) {
-      // Registration
       if (
         !formData.studentId ||
         !formData.firstName ||
@@ -43,83 +59,71 @@ export default function LoginScreen({ navigation }) {
         !formData.block ||
         !formData.password
       ) {
-        Alert.alert('Registration Failed', 'Please fill out all required fields.');
+        Alert.alert("Error", "Please fill in all required fields.");
         return;
       }
 
       setLoading(true);
       try {
         const response = await fetch(`${API_BASE}/register`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            studentId: formData.studentId,
-            firstName: formData.firstName,
-            middleName: formData.middleName,
-            lastName: formData.lastName,
-            course: formData.course,
-            block: formData.block,
-            password: formData.password,
-          }),
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
         });
 
         const data = await response.json();
 
         if (response.ok) {
-          Alert.alert('Registration Successful ✅', `Welcome, ${formData.firstName}!`);
-          // Switch to login form
+          Alert.alert(
+            "Registration Successful 🎉",
+            `Welcome, ${formData.firstName}! You can now login.`
+          );
           setIsRegister(false);
-          // Clear password but keep studentId for easy login
-          setFormData(prev => ({ ...prev, password: '' }));
+          resetForm();
         } else {
-          Alert.alert('Registration Failed', data.message || 'Something went wrong');
+          Alert.alert("Registration Failed", data.message || "Please try again.");
         }
       } catch (error) {
-        console.error('Registration error:', error);
-        Alert.alert(
-          'Connection Error',
-          'Cannot connect to server. Make sure:\n1. Backend is running (npm start)\n2. IP address is correct\n3. Same WiFi network'
-        );
+        Alert.alert("Error", "Unable to connect to the server.");
+        console.error(error);
       } finally {
         setLoading(false);
       }
-
     } else {
-      // Login
       if (!formData.studentId || !formData.password) {
-        Alert.alert('Invalid Credentials', 'Please enter Student ID and Password.');
+        Alert.alert("Error", "Please enter Student ID and Password.");
         return;
       }
 
       setLoading(true);
       try {
         const response = await fetch(`${API_BASE}/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            studentId: formData.studentId,
-            password: formData.password,
+            studentId: formData.studentId.trim(),
+            password: formData.password.trim(),
           }),
         });
 
         const data = await response.json();
 
-        console.log('Login response:', data); // For debugging
-
-        if (response.ok && data.student) {
-          // ✅ FIXED: Check response.ok and data.student
-          Alert.alert('Access Granted 🎓', 'Welcome to TMC Campus Guide!');
-          // ✅ FIXED: Navigate to Dashboard with student data
-          navigation.replace('Dashboard', { student: data.student });
+        if (response.ok) {
+          Alert.alert(
+            "Access Granted 🎓",
+            `Welcome to TMC Campus Guide, ${data.student.firstName}!`
+          );
+          resetForm();
+          navigation.replace("Dashboard", { student: data.student });
         } else {
-          Alert.alert('Login Failed', data.message || 'Invalid credentials');
+          Alert.alert(
+            "Invalid Credentials",
+            data.message || "Check your Student ID and Password."
+          );
         }
       } catch (error) {
-        console.error('Login error:', error);
-        Alert.alert(
-          'Connection Error',
-          'Cannot connect to server. Make sure:\n1. Backend is running\n2. IP address is correct\n3. Same WiFi network'
-        );
+        Alert.alert("Error", "Unable to connect to the server.");
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -128,49 +132,44 @@ export default function LoginScreen({ navigation }) {
 
   const toggleForm = () => {
     setIsRegister(!isRegister);
-    setFormData({
-      studentId: '',
-      firstName: '',
-      middleName: '',
-      lastName: '',
-      course: '',
-      block: '',
-      password: '',
-    });
+    resetForm();
     setShowPassword(false);
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+      keyboardVerticalOffset={40}
+    >
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.header}>
-          <View style={styles.logoContainer}>
-            <Image
-              source={require("./assets/tmc-logo.jpg")}
-              style={styles.logoImage}
-              resizeMode="contain"
-            />
-          </View>
+          <View style = {styles.logoContainer}>
+              <Image
+                source={require("./assets/tmc-logo.jpg")}
+                style= {styles.logo}
+                />
+              </View>
           <Text style={styles.mainTitle}>TMC CAMPUS GUIDE</Text>
           <Text style={styles.subTitle}>
-            {isRegister ? 'CREATE NEW ACCOUNT' : 'LOGIN'}
+            {isRegister ? "CREATE NEW ACCOUNT" : "LOGIN"}
           </Text>
         </View>
 
         <View style={styles.formContainer}>
           {!isRegister ? (
-            // Login Form
             <>
+              {/* LOGIN FORM */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Student ID:</Text>
                 <TextInput
                   style={styles.input}
                   value={formData.studentId}
-                  onChangeText={(value) => handleInputChange('studentId', value)}
+                  onChangeText={(v) => handleInputChange("studentId", v)}
                   placeholder="Enter your student ID (e.g., 23-016046)"
                   autoCapitalize="none"
                   editable={!loading}
@@ -179,47 +178,49 @@ export default function LoginScreen({ navigation }) {
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Password:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.password}
-                  onChangeText={(value) => handleInputChange('password', value)}
-                  placeholder="Enter your password"
-                  secureTextEntry={!showPassword}
-                  autoCapitalize="none"
-                  editable={!loading}
-                />
-                <TouchableOpacity
-                  style={styles.passwordToggle}
-                  onPress={() => setShowPassword(!showPassword)}
-                  disabled={loading}
-                >
-                  <Text style={styles.toggleText}>
-                    {showPassword ? 'Hide' : 'Show'}
-                  </Text>
-                </TouchableOpacity>
+                <View style={styles.passwordContainer}>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.password}
+                    onChangeText={(v) => handleInputChange("password", v)}
+                    placeholder="Enter your password"
+                    secureTextEntry={!showPassword}
+                    autoCapitalize="none"
+                    editable={!loading}
+                  />
+                  <TouchableOpacity
+                    style={styles.passwordToggle}
+                    onPress={() => setShowPassword(!showPassword)}
+                    disabled={loading}
+                  >
+                    <Text style={styles.toggleText}>
+                      {showPassword ? "Hide" : "Show"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
 
-              <TouchableOpacity 
-                style={[styles.loginButton, loading && styles.buttonDisabled]} 
+              <TouchableOpacity
+                style={[styles.loginButton, loading && styles.buttonDisabled]}
                 onPress={handleSubmit}
                 disabled={loading}
               >
                 {loading ? (
-                  <ActivityIndicator color="#1e40af" />
+                  <ActivityIndicator color="#0033cc" size="small" />
                 ) : (
-                  <Text style={styles.buttonText}>🔒 Login</Text>
+                  <Text style={styles.buttonText}>Login</Text>
                 )}
               </TouchableOpacity>
             </>
           ) : (
-            // Registration Form
             <>
+              {/* REGISTER FORM */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Student ID:</Text>
                 <TextInput
                   style={styles.input}
                   value={formData.studentId}
-                  onChangeText={(value) => handleInputChange('studentId', value)}
+                  onChangeText={(v) => handleInputChange('studentId', v)}
                   placeholder="Enter your student ID (e.g., 23-016046)"
                   autoCapitalize="none"
                   editable={!loading}
@@ -231,19 +232,19 @@ export default function LoginScreen({ navigation }) {
                 <TextInput
                   style={styles.input}
                   value={formData.firstName}
-                  onChangeText={(value) => handleInputChange('firstName', value)}
+                  onChangeText={(v) => handleInputChange('firstName', v)}
                   placeholder="Enter your first name"
                   editable={!loading}
                 />
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.label}>Middle Name:</Text>
+                <Text style={styles.label}>Middle Name (optional):</Text>
                 <TextInput
                   style={styles.input}
                   value={formData.middleName}
-                  onChangeText={(value) => handleInputChange('middleName', value)}
-                  placeholder="Enter your middle name (optional)"
+                  onChangeText={(v) => handleInputChange('middleName', v)}
+                  placeholder="Enter your middle name"
                   editable={!loading}
                 />
               </View>
@@ -253,222 +254,184 @@ export default function LoginScreen({ navigation }) {
                 <TextInput
                   style={styles.input}
                   value={formData.lastName}
-                  onChangeText={(value) => handleInputChange('lastName', value)}
+                  onChangeText={(v) => handleInputChange('lastName', v)}
                   placeholder="Enter your last name"
                   editable={!loading}
                 />
               </View>
 
               <View style={styles.inputGroup}>
+                <Text style={styles.label}>Gender:</Text>
+                <Dropdown
+                    label="Gender"
+                  options={["Male", "Female"]}
+                  selected={formData.gender}
+                  onSelect={(v) => handleInputChange('gender', v)}
+                  placeholder="Select gender"
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
                 <Text style={styles.label}>Course:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.course}
-                  onChangeText={(value) => handleInputChange('course', value)}
-                  placeholder="Enter your course"
-                  editable={!loading}
+                <Dropdown
+                  label="Course"
+                  options={["BSIT", "BSCRIM", "BOED", "BSOA", "POLSCI"]}
+                  selected={formData.course}
+                  onSelect={(v) => handleInputChange('course', v)}
+                  placeholder="Select course"
                 />
               </View>
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Block:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.block}
-                  onChangeText={(value) => handleInputChange('block', value)}
-                  placeholder="Enter your block"
-                  editable={!loading}
+                <Dropdown
+                  label="Block"
+                  options={
+                    formData.course === 'BSIT'
+                      ? ['Block 1', 'Block 2', 'Block 3', 'Block 4', 'Block 5']
+                      : ['Block 1', 'Block 2', 'Block 3']
+                  }
+                  selected={formData.block}
+                  onSelect={(v) => handleInputChange('block', v)}
+                  placeholder="Select block"
                 />
               </View>
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Password:</Text>
-                <TextInput
-                  style={styles.input}
-                  value={formData.password}
-                  onChangeText={(value) => handleInputChange('password', value)}
-                  placeholder="Create a password"
-                  secureTextEntry={!showPassword}
-                  autoCapitalize="none"
-                  editable={!loading}
-                />
-                <TouchableOpacity
-                  style={styles.passwordToggle}
-                  onPress={() => setShowPassword(!showPassword)}
-                  disabled={loading}
-                >
-                  <Text style={styles.toggleText}>
-                    {showPassword ? 'Hide' : 'Show'}
-                  </Text>
-                </TouchableOpacity>
+                <View style={styles.passwordContainer}>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.password}
+                    onChangeText={(v) => handleInputChange("password", v)}
+                    placeholder="Create a password"
+                    secureTextEntry={!showPassword}
+                    autoCapitalize="none"
+                    editable={!loading}
+                  />
+                  <TouchableOpacity
+                    style={styles.passwordToggle}
+                    onPress={() => setShowPassword(!showPassword)}
+                    disabled={loading}
+                  >
+                    <Text style={styles.toggleText}>
+                      {showPassword ? "Hide" : "Show"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
 
-              <TouchableOpacity 
-                style={[styles.registerButton, loading && styles.buttonDisabled]} 
+              <TouchableOpacity
+                style={[styles.registerButton, loading && styles.buttonDisabled]}
                 onPress={handleSubmit}
                 disabled={loading}
               >
                 {loading ? (
-                  <ActivityIndicator color="#1e40af" />
+                  <ActivityIndicator color="#fff" size="small" />
                 ) : (
-                  <Text style={styles.buttonText}>✅ Register Account</Text>
+                  <Text style={styles.buttonText}>Register Account</Text>
                 )}
               </TouchableOpacity>
             </>
           )}
 
-          <TouchableOpacity onPress={toggleForm} style={styles.switchContainer} disabled={loading}>
+          <TouchableOpacity
+            onPress={toggleForm}
+            style={styles.switchContainer}
+            disabled={loading}
+          >
             <Text style={styles.switchText}>
               {isRegister
-                ? 'Already have an account? '
+                ? "Already have an account? "
                 : "Don't have an account? "}
               <Text style={styles.switchLink}>
-                {isRegister ? 'Login Here' : 'Register Here'} →
+                {isRegister ? "Login Here" : "Register Here"}
               </Text>
             </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0044ff',
-  },
+  container: { flex: 1, backgroundColor: "#191970" },
   scrollContent: {
     flexGrow: 1,
     padding: 20,
-    paddingTop: 60,
-    paddingBottom: 40,
-    justifyContent: 'center',
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 40,
+    paddingTop: 30,
+    paddingBottom: 20,
+    justifyContent: "flex-start",
   },
   logoContainer: {
-    width: 96,
-    height: 96,
-    backgroundColor: '#ffcc00',
-    borderRadius: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-    borderWidth: 4,
-    borderColor: '#fff',
-  },
-  logoImage: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-  },
-  mainTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#ffcc00',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  subTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#fff',
-    textAlign: 'center',
-  },
+        width: 130,
+        height: 130,
+        borderRadius: 65,
+        borderWidth: 4,
+        borderColor: "#2563eb",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#fff",
+        marginBottom: 20,
+        overflow: "hidden",
+    },
+
+  logo : {
+        width: "100%",
+        height: "100%",
+        resizeMode: "cover",
+    },
+  header: { alignItems: "center", marginBottom: 40 },
+  
+  logoText: { fontSize: 48, fontWeight: "bold", color: "#191970" },
+  mainTitle: { fontSize: 28, fontWeight: "bold", color: "#ffcc00", marginBottom: 8 },
+  subTitle: { fontSize: 20, fontWeight: "600", color: "#fff" },
   formContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 20,
     padding: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 16,
-    elevation: 10,
     borderWidth: 1,
-    borderColor: '#bfdbfe',
+    borderColor: "#bfdbfe",
+    elevation: 5,
   },
-  inputGroup: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#1d4ed8',
-    marginBottom: 8,
-  },
+  inputGroup: { marginBottom: 20 },
+  label: { fontSize: 16, fontWeight: "500", color: "#1d4ed8", marginBottom: 8 },
   input: {
     borderWidth: 1,
-    borderColor: '#bfdbfe',
+    borderColor: "#bfdbfe",
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: 16,
-    backgroundColor: '#eff6ff',
+    backgroundColor: "#eff6ff",
   },
-  passwordToggle: {
-    position: 'absolute',
-    right: 16,
-    top: 40,
-    padding: 4,
-  },
-  toggleText: {
-    fontSize: 14,
-    color: '#2563eb',
-  },
+  passwordContainer: { position: "relative" },
+  passwordToggle: { position: "absolute", right: 16, top: 12, padding: 4 },
+  toggleText: { fontSize: 14, color: "#2563eb", fontWeight: "600" },
   loginButton: {
-    backgroundColor: '#ffcc00',
+    backgroundColor: "#ffcc00",
     paddingVertical: 16,
     borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
+    alignItems: "center",
+    marginTop: 8,
   },
   registerButton: {
-    backgroundColor: '#ffcc00',
+    backgroundColor: "#191970",
     paddingVertical: 16,
     borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
+    alignItems: "center",
+    marginTop: 8,
   },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1e40af',
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
+  buttonDisabled: { opacity: 0.6 },
+  buttonText: { fontSize: 18, fontWeight: "bold", color: "#fff" },
   switchContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 24,
     paddingTop: 16,
     borderTopWidth: 1,
-    borderTopColor: '#bfdbfe',
+    borderTopColor: "#e5e7eb",
   },
-  switchText: {
-    fontSize: 16,
-    color: '#2563eb',
-    textAlign: 'center',
-  },
-  switchLink: {
-    color: '#ffcc00',
-    fontWeight: '500',
-  },
+  switchText: { fontSize: 16, color: "#2563eb" },
+  switchLink: { color: "#ffcc00", fontWeight: "500" },
 });

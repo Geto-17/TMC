@@ -1,0 +1,11 @@
+
+Room: E-104
+Direction: Room 104, third door on the right.
+
+Block                  Time Slot                             Subject                                    Instructor
+ 
+Block 1                7:00 AM - 8:00 AM                     Basic Accounting                           Ms. Rhianne Lopez
+Block 2                8:00 AM - 9:00 AM                     General Biology                            Mr. Paolo Villanueva
+Block 3                10:00 AM - 11:00 AM                   Introduction to Criminology                Mr. Brian Cortez
+Block 4                1:00 PM - 2:00 PM                     PE 1 – Physical Fitness                    Mr. Carlo Aquino
+Block 5                3:00 PM - 4:00 PM                     Business Math                              Ms. Trisha Gomez

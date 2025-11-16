@@ -1,0 +1,9 @@
+Room: M-209
+Location: Proceed to the main hall, Then turn left.
+
+Block			Time Slot			 Subject			Instructor
+
+Block 1                 8:00 Am - 9:00 AM                Tech Write                     Mrs. Angelica Devicay 
+Block 2                 10:00 AM - 11:00 AM              System Analyst & Design        Mrs. Vernaliza Magdadaro 
+Block 3                 12:00 PM -1:00 PM                Foreign Language               Angel Curato       
+							

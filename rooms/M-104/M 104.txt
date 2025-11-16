@@ -1,0 +1,8 @@
+M-104
+Location: Second floor, First room from the right after coming up the main staircase.
+
+BLOCK: 		TIME SLOT           Subject 	          Instructor
+
+Block 1		8:00–9:00 AM	    Business Ethics       Mr. Ray Molse
+Block 2		10:00–11:00 AM	    General Biology       Mrs. Jaja Collen
+Block 3		1:00–2:00 PM        Social Science  	  Mr.  Jack Coal

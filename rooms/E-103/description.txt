@@ -1,0 +1,12 @@
+
+
+Room: E-103
+Location: Room E-103, beside Room E-102.
+
+Block                  Time Slot                             Subject                                    Instructor
+ 
+Block 1                8:00 AM – 9:30 AM                     Data Structures and Algorithms             Mr. Miguel Soriano
+Block 2                9:30 AM - 10:20 AM                    Human–Computer Interaction                 Ms. Cherry De Leon
+Block 3                10:20 AM - 11:00 AM                   Fundamentals of Database System            Mrs. Angelica Torres
+Block 4                12:00 PM - 1:00 PM                    PE 2 – Physical Fitness                    Mrs. Elaine Santiago 
+Block 5                4:00 PM - 5:00 PM                     Ethics                                     Mr. Carlo Mendoza             

@@ -1,0 +1,8 @@
+M-108
+Location: Second floor, last room at the far end of the hallway on the left side when coming up the main staircase.
+
+BLOCK: 		TIME SLOT           Subject 				Instructor
+
+Block 1		8:00–9:00 AM	    Marketing Principles                 Ms. Chique Viovicente
+Block 2		10:00–11:00 AM	    Mathematics in the Modern World	 Mr. Ryan Greg Torreon
+Block 3		11:00–12:00 PM      Physics  				 Mr. Edison Alcazar

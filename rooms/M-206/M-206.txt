@@ -1,0 +1,11 @@
+M-206
+Location: Second floor, right-wing hallway, near the stair landing.
+
+Block    	 Schedule         Subject              Instructor
+
+Block 1  	7:00–8:00 AM	  Programming 1        Mr. Reyes
+Block 2         8:00–9:00 AM	  Data Structures      Ms. Perez
+Block 3  	9:00–10:00 AM 	  Computer Literacy    Ms. Velasco
+Block 4 	10:00–11:00 AM	  Systems Analysis     Mr. Santiago
+Block 5 	11:00–12:00 PM    ICT Applications     Ms. Navarro
+

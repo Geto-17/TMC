@@ -1,0 +1,10 @@
+M-201
+Location: Second floor, first room after the stairs.
+
+Block      Schedule          Subject                            Instructor
+
+Block 1    7:00–8:00 AM      Mathematics in the Modern World    Ms. Manigo
+Block 2    8:00–9:00 AM      Statistics & Probability           Mr. Villar
+Block 3    9:00–10:00 AM     Algebra Review                     Ms. Tabigue
+Block 4    10:00–11:00 AM    Quantitative Reasoning             Mr. Sevilla
+Block 5    11:00–12:00 PM    Logic & Problem Solving            Ms. Layson

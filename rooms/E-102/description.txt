@@ -1,0 +1,12 @@
+
+Room: E-102
+Loacation: Proceed to second room in the left.
+
+Block                  Time Slot                             Subject                                    Instructor
+ 
+Block 1                7:00 AM - 8:00 AM                     Computer Concepts                          Mrs. Mercy Cutanda
+Block 2                9:00 AM - 10:00 AM                    Discrete Mathematics                       Ms. Kristine Bautista
+Block 3                10:00 AM - 11:50 AM                   Computer Programming 1                     Mr. Jomar Dela Cruz
+Block 4                1:00 PM - 2:00 PM                     Fundamentals of Database                   Mrs. Angelica Torres
+Block 5                2:00 PM - 3:00 PM                     Ethics                                     Mr. Raymond Valdez
+             

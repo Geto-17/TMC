@@ -1,0 +1,11 @@
+
+Room: E-202
+Location: Proceed to Room E-202, beside Room E-203.
+
+Block                  Time Slot                             Subject                                    Instructor
+
+Block 1                7:00 AM - 8:00 AM                     Computer Programming 1                     Mr. Julius Ortega
+Block 2                8:00 AM - 9:00 AM                     Purposive Communication                    Ms. Danica Reyes
+Block 3                9:00 AM - 10:00 AM                    General Biology                            Mr. Paolo Villanueva
+Block 4                10:00 AM - 11:00 AM                   Art Appreciation                           Ms. Julia Mendoza
+Block 5                1:00 PM - 2:00 PM                     Business Math                              Ms. Trisha Gomez

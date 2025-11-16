@@ -1,111 +1,65 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, FlatList } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 
-export default function Dropdown({ label, options, selected, onSelect, placeholder }) {
-  const [visible, setVisible] = useState(false);
+export default function Dropdown({ label, options = [], selected, onSelect, placeholder }) {
+  const [open, setOpen] = useState(false);
+
+  const handleChoose = (value) => {
+    onSelect(value);
+    setOpen(false);
+  };
 
   return (
-    <View>
-      <TouchableOpacity
-        style={styles.dropdownButton}
-        onPress={() => setVisible(true)}
-      >
-        <Text style={selected ? styles.selectedText : styles.placeholderText}>
-          {selected || placeholder || 'Select...'}
-        </Text>
-        <MaterialIcons name="arrow-drop-down" size={24} color="#0033cc" />
+    <>
+      <TouchableOpacity style={styles.container} onPress={() => setOpen(true)}>
+        <Text style={styles.label}>{label}</Text>
+        <View style={styles.selector}>
+          <Text style={[styles.value, !selected && styles.placeholder]}>{selected || placeholder || 'Select'}</Text>
+        </View>
       </TouchableOpacity>
 
-      <Modal
-        visible={visible}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setVisible(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setVisible(false)}
-        >
+      <Modal visible={open} transparent animationType="slide">
+        <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>{label}</Text>
             <FlatList
               data={options}
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(item) => item.toString()}
               renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.optionItem}
-                  onPress={() => {
-                    onSelect(item);
-                    setVisible(false);
-                  }}
-                >
+                <TouchableOpacity style={styles.option} onPress={() => handleChoose(item)}>
                   <Text style={styles.optionText}>{item}</Text>
-                  {selected === item && (
-                    <MaterialIcons name="check" size={20} color="#0033cc" />
-                  )}
                 </TouchableOpacity>
               )}
             />
+
+            <TouchableOpacity style={styles.closeBtn} onPress={() => setOpen(false)}>
+              <Text style={styles.closeText}>Cancel</Text>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
+        </View>
       </Modal>
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  dropdownButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  container: { marginBottom: 14 },
+  label: { fontSize: 12, color: '#1d4ed8', fontWeight: '600', marginBottom: 6, textTransform: 'uppercase' },
+  selector: {
     borderWidth: 1,
     borderColor: '#bfdbfe',
-    borderRadius: 8,
-    padding: 12,
-    backgroundColor: '#e6eefc',
-  },
-  selectedText: {
-    fontSize: 14,
-    color: '#0033cc',
-    fontWeight: '500',
-  },
-  placeholderText: {
-    fontSize: 14,
-    color: '#999',
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
     borderRadius: 12,
-    padding: 16,
-    width: '80%',
-    maxHeight: '60%',
-    elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#0033cc',
-    marginBottom: 12,
-  },
-  optionItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    paddingHorizontal: 12,
     paddingVertical: 12,
-    paddingHorizontal: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    backgroundColor: '#eff6ff',
   },
-  optionText: {
-    fontSize: 16,
-    color: '#333',
-  },
+  value: { fontSize: 16, color: '#111' },
+  placeholder: { color: '#6b7280' },
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
+  modalContent: { backgroundColor: '#fff', padding: 16, borderTopLeftRadius: 12, borderTopRightRadius: 12, maxHeight: '60%' },
+  modalTitle: { fontSize: 16, fontWeight: '700', marginBottom: 8 },
+  option: { paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#f1f5f9' },
+  optionText: { fontSize: 16 },
+  closeBtn: { marginTop: 12, alignItems: 'center' },
+  closeText: { color: '#2563eb', fontWeight: '700' },
 });

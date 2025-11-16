@@ -1,0 +1,11 @@
+
+Room: E-201
+Location: Proceed to Room E-201, beside Room E-202.
+
+Block                  Time Slot                             Subject                                    Instructor
+ 
+Block 1                7:00 AM - 8:00 AM                     Introduction to Sociology                  Ms. Maria Santos
+Block 2                8:00 AM - 9:00 AM                     Financial Accounting                       Mr. John Dela Cruz
+Block 3                10:00 AM - 11:00                      AM Microbiology                            Mrs. Angela Reyes
+Block 4                1:00 PM - 2:00 PM                     PE 1 – Physical Fitness                           Mr. Carlo Aquino
+Block 5                3:00 PM - 4:00 PM                     Ethics                                     Ms. Trisha Gomez

@@ -1,0 +1,8 @@
+M-101
+Location: Second floor, Last room at the far end of the hallway on the right side, near the emergency exit staircase
+
+BLOCK: 		TIME SLOT           Subject 	           Instructor
+
+Block 1		8:00–9:00 AM	    Accounting Basics      Mr. Christoff Chan
+Block 2		2:00–3:00 AM	    General Biology        Mr. Van Helsing
+Block 3		3:00–4:00 PM        Business Ethics        Mr. Darko Sartoro

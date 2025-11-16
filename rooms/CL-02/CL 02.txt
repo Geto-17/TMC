@@ -1,0 +1,12 @@
+Room: CL-02
+Location: Proceed to the main hall, take the stairs to the second floor, and is the last door on the left.
+
+Block			Time Slot			Subject				Instructor
+
+Block 1                 8:00 Am - 9:00 AM               IT 317                          Mrs. Aileen Concon
+Block 2                 9:00 Am - 10:00 AM              Web Information System          Ms. Christine Joy Yap
+Block 3                 10:00 Am -11:00 AM              IT Elective 1                   Mr. Jay Ian Camelotes
+Block 4                 11:00 Am - 12:00 PM             ICT Trends                      Mr. Franklin Lorican
+Block 5                 1:00 Pm - 2:00 PM               VB.Net Programming              Mr. Mark Emil Dacoylo
+
+

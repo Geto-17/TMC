@@ -69,7 +69,7 @@ export default function Onboarding({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0044ff',
+  backgroundColor: '#191970',
   },
   scrollContent: {
     padding: 20,
