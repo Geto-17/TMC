@@ -1,0 +1,36 @@
+Room: EB-CL01
+Location: From the Expansion Building entrance, walk straight to the left hallway. EB-CL01 is the first door on your right.
+
+Block | Time Slot | Subject | Instructor
+
+Block 1
+8:00 AM – 9:00 AM
+Introduction to Programming
+Ms. Lara Mae Salvador
+
+Block 2
+9:00 AM – 10:00 AM
+Database Management Systems
+Mr. Jerome Castillo
+
+Block 3
+10:00 AM – 11:00 AM
+System Integration & Architecture
+Mrs. Shiela Monteverde
+
+Block 4
+11:00 AM – 12:00 PM
+Mobile Application Development
+Mr. Carlo Yver
+
+Block 5
+1:00 PM – 2:00 PM
+Fundamentals of Networking
+Ms. Vivian Palma
+
+Block 6
+4:00 PM – 5:00 PM
+Human–Computer Interaction
+Mr. Alvin Reotutar
+
+

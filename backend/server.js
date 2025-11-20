@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 const multer = require("multer");
+const os = require("os");
 const Student = require("./models/Student");
 
 const app = express();
@@ -48,8 +49,8 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // Root route for testing
 app.get("/", (req, res) => {
@@ -99,7 +100,7 @@ app.post("/login", async (req, res) => {
 app.put("/update/:id", async (req, res) => {
   try {
     const { id } = req.params;
-  const allowedFields = ["firstName", "middleName", "lastName", "course", "block", "avatar", "gender"];
+    const allowedFields = ["firstName", "middleName", "lastName", "course", "block", "avatar", "gender"];
     const updates = {};
 
     for (const field of allowedFields) {
@@ -152,7 +153,51 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message: err.message || 'Internal Server Error' });
 });
 
+// Helper function to get network IPs
+function getNetworkIPs() {
+  const interfaces = os.networkInterfaces();
+  const ips = [];
+  
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name]) {
+      // Skip internal and non-IPv4 addresses
+      if (iface.family === 'IPv4' && !iface.internal) {
+        ips.push(iface.address);
+      }
+    }
+  }
+  
+  return ips;
+}
+
 // Start Server
 const PORT = 3000;
-// bind to 0.0.0.0 so devices on the LAN can reach this dev server
-app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+const HOST = "0.0.0.0";
+
+app.listen(PORT, HOST, () => {
+  const networkIPs = getNetworkIPs();
+  
+  console.log("\n" + "=".repeat(60));
+  console.log("🚀 SERVER IS RUNNING!");
+  console.log("=".repeat(60));
+  console.log(`📡 Port: ${PORT}`);
+  console.log(`🌐 Host: ${HOST} (listening on all network interfaces)`);
+  console.log("\n📱 USE THESE URLs IN YOUR FRONTEND:\n");
+  
+  if (networkIPs.length > 0) {
+    networkIPs.forEach((ip, index) => {
+      console.log(`   ${index + 1}. http://${ip}:${PORT}`);
+    });
+    console.log("\n✨ Copy one of the above URLs to your LoginScreen.js");
+    console.log("   Example: const API_BASE = \"http://" + networkIPs[0] + ":" + PORT + "\";");
+  } else {
+    console.log("   ⚠️  No network interfaces found!");
+    console.log("   Make sure you're connected to WiFi or Hotspot");
+  }
+  
+  console.log("\n🧪 TEST FROM PHONE BROWSER:");
+  if (networkIPs.length > 0) {
+    console.log(`   Open: http://${networkIPs[0]}:${PORT}/ping`);
+  }
+  console.log("=".repeat(60) + "\n");
+});

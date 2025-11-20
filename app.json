@@ -16,17 +16,26 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.tmccampusguide.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-barcode-scanner"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "fc1ae924-bf73-4e39-8459-597c82a024e6"
+      }
+    }
   }
 }
