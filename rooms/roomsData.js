@@ -1,13 +1,11 @@
 // rooms/roomsData.js
-// Static room metadata module bundled with the app.
-// When you add more rooms, append them here or load from a backend API.
 
 export default {
   "CL-01": {
     id: "CL-01",
     name: "Computer Lab 1",
-    description: " Proceed to the main hall, take the stairs to the second floor, second door from the stair.",
-    image: require('./CL-01/Room.jpg'),
+    description: "Proceed to the main hall, take the stairs to the second floor, second door from the stair.",
+    image: require('./CL-01/CL-01.jpg'),
     capacity: 40,
     blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5", "Block 6"],
     schedule: [
@@ -68,7 +66,7 @@ export default {
     id: "ChemLab",
     name: "Chemistry Laboratory",
     description: "A laboratory used for experimenting, analyzing, and studying chemical substances.",
-    image: require('./ChemLab/CHEMLAB.jpg'),
+    image: require('./ChemLab/ChemLab.jpg'),
     capacity: 24,
     blocks: [],
     schedule: [],
@@ -77,7 +75,7 @@ export default {
     id: "Clinic",
     name: "School Clinic",
     description: "A school medical room where students can receive first aid, health assessment, and temporary medical care.",
-    image: require('./Clinic/CLINIC.jpg'),
+    image: require('./Clinic/Clinic.jpg'),
     capacity: 0,
     blocks: [],
     schedule: [],
@@ -85,8 +83,8 @@ export default {
   "SpeechLab": {
     id: "SpeechLab",
     name: "Speech Laboratory",
-    description: "A classroom designed to improve students’ speaking and communication skills.",
-    image: require('./SpeechLab/SPEECHLAB.jpg'),
+    description: "A classroom designed to improve students' speaking and communication skills.",
+    image: require('./SpeechLab/SpeechLab.jpg'),
     capacity: 20,
     blocks: [],
     schedule: [],
@@ -97,7 +95,7 @@ export default {
     description: "Second floor, last room at the far end of the hallway on the right side, near the emergency exit staircase",
     image: require('./M-101/M-101.jpg'),
     capacity: 30,
-    blocks: ["Block 1", "Block 2", "Block 3"],
+    blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5"],
     schedule: [
       { block: "Block 1", start: "08:00 AM", end: "09:00 AM", subject: "Accounting Basics", instructor: "Mr. Christoff Chan" },
       { block: "Block 2", start: "02:00 AM", end: "03:00 AM", subject: "General Biology", instructor: "Mr. Van Helsing" },
@@ -112,7 +110,7 @@ export default {
     description: "Second floor, third room from the right from the main staircase.",
     image: require('./M-102/M-102.jpg'),
     capacity: 30,
-    blocks: ["Block 1", "Block 2", "Block 3"],
+    blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5"],
     schedule: [
       { block: "Block 1", start: "07:00 AM", end: "08:00 AM", subject: "Business Math", instructor: "Mr. Rolando Poko" },
       { block: "Block 2", start: "10:00 AM", end: "11:00 AM", subject: "Quantitative Reasoning", instructor: "Mrs. Aimee Roswell" },
@@ -127,14 +125,13 @@ export default {
     description: "Second floor, second room from the right after coming up the main staircase.",
     image: require('./M-103/M-103.jpg'),
     capacity: 30,
-    blocks: ["Block 1", "Block 2", "Block 3"],
+    blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5"],
     schedule: [
       { block: "Block 1", start: "02:00 AM", end: "03:00 AM", subject: "Marketing Principle", instructor: "Mr. Ace Craige" },
       { block: "Block 2", start: "03:00 AM", end: "04:00 AM", subject: "Values Education", instructor: "Mrs. Zein Shion" },
       { block: "Block 3", start: "04:00 PM", end: "05:00 PM", subject: "Algebra", instructor: "Mr. Margareth Devicay" },
       { block: "Block 4", start: "01:20 PM", end: "02:20 PM", subject: "Fundamentals of Accounting", instructor: "Mrs. Aileen Santos" },
       { block: "Block 5", start: "03:25 PM", end: "04:25 PM", subject: "Business Mathematics", instructor: "Mr. Jerome Castillo" },
-
     ],
   },
   "M-104": {
@@ -143,14 +140,13 @@ export default {
     description: "Second floor, first room from the right after coming up the main staircase.",
     image: require('./M-104/M-104.jpg'),
     capacity: 30,
-    blocks: ["Block 1", "Block 2", "Block 3"],
+    blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5"],
     schedule: [
       { block: "Block 1", start: "08:00 AM", end: "09:00 AM", subject: "Business Ethics", instructor: "Mr. Ray Molse" },
       { block: "Block 2", start: "10:00 AM", end: "11:00 AM", subject: "General Biology", instructor: "Mrs. Jaja Collen" },
       { block: "Block 3", start: "01:00 PM", end: "02:00 PM", subject: "Social Science", instructor: "Mr. Jack Coal" },
       { block: "Block 4", start: "02:15 PM", end: "03:15 PM", subject: "Programming Fundamentals", instructor: "Engr. Rafael Jimenez" },
       { block: "Block 5", start: "04:10 PM", end: "05:10 PM", subject: "General Biology", instructor: "Ms. Kristine Fabella" },
-
     ],
   },
   "M-105": {
@@ -159,14 +155,13 @@ export default {
     description: "Second floor, first room from the left after coming up the main staircase.",
     image: require('./M-105/M-105.jpg'),
     capacity: 30,
-    blocks: ["Block 1", "Block 2", "Block 3"],
+    blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5"],
     schedule: [
       { block: "Block 1", start: "01:00 AM", end: "02:00 AM", subject: "Accounting Basics", instructor: "Ms. Chique Viovicente" },
       { block: "Block 2", start: "03:00 AM", end: "04:00 AM", subject: "Ethics", instructor: "Mrs. Dahlia Cajes" },
       { block: "Block 3", start: "04:00 PM", end: "05:00 PM", subject: "Quantitative Reasoning", instructor: "Mr. Ryan Greg Torreon" },
       { block: "Block 4", start: "03:05 PM", end: "04:05 PM", subject: "Social Issues & Current Events", instructor: "Dr. Regina Cortez" },
       { block: "Block 5", start: "03:45 PM", end: "04:45 PM", subject: "Introduction to Philosophy", instructor: "Sir Dominic Carreon" },
-
     ],
   },
   "M-106": {
@@ -175,14 +170,13 @@ export default {
     description: "Second floor, second room from the main staircase on the left side of the hallway.",
     image: require('./M-106/M-106.jpg'),
     capacity: 30,
-    blocks: ["Block 1", "Block 2", "Block 3"],
+    blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5"],
     schedule: [
       { block: "Block 1", start: "07:00 AM", end: "08:00 AM", subject: "Life Skills", instructor: "Ms. Chique Viovicente" },
       { block: "Block 2", start: "11:00 AM", end: "12:00 PM", subject: "Statistic & Probability", instructor: "Mrs. Dahlia Cajes" },
       { block: "Block 3", start: "02:00 PM", end: "03:00 PM", subject: "Environmental", instructor: "Mr. Ryan Greg Torreon" },
       { block: "Block 4", start: "01:10 PM", end: "02:10 PM", subject: "Organizational Communication", instructor: "Ms. Denise Corvera" },
       { block: "Block 5", start: "02:30 PM", end: "03:30 PM", subject: "Work Immersion Prep", instructor: "Mr. Allan Sarmiento" },
-
     ],
   },
   "M-107": {
@@ -191,14 +185,13 @@ export default {
     description: "Second floor, third room from the main staircase on the left side of the hallway.",
     image: require('./M-107/M-107.jpg'),
     capacity: 30,
-    blocks: ["Block 1", "Block 2", "Block 3"],
+    blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5"],
     schedule: [
       { block: "Block 1", start: "09:00 AM", end: "10:00 AM", subject: "Philippine History", instructor: "Mr. Ryan Greg Torreon" },
       { block: "Block 2", start: "01:00 AM", end: "02:00 AM", subject: "Algebra Review", instructor: "Mrs. Dahlia Cajes" },
       { block: "Block 3", start: "03:00 PM", end: "04:00 PM", subject: "Business Math", instructor: "Ms. Chique Viovicente" },
       { block: "Block 4", start: "02:45 PM", end: "03:45 PM", subject: "Entrepreneurship", instructor: "Mrs. Ivy De Chavez" },
       { block: "Block 5", start: "04:00 PM", end: "05:00 PM", subject: "Business Ethics", instructor: "Mr. Paulo Navarro" },
-
     ],
   },
   "M-108": {
@@ -207,14 +200,13 @@ export default {
     description: "Second floor, last room at the far end of the hallway on the left side when coming up the main staircase.",
     image: require('./M-108/M-108.jpg'),
     capacity: 30,
-    blocks: ["Block 1", "Block 2", "Block 3"],
+    blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5"],
     schedule: [
       { block: "Block 1", start: "08:00 AM", end: "09:00 AM", subject: "Marketing Principles", instructor: "Ms. Chique Viovicente" },
       { block: "Block 2", start: "10:00 AM", end: "11:00 AM", subject: "Mathematics in the Modern World", instructor: "Mr. Ryan Greg Torreon" },
       { block: "Block 3", start: "11:00 AM", end: "12:00 PM", subject: "Physics", instructor: "Mr. Edison Alcazar" },
       { block: "Block 4", start: "03:15 PM", end: "04:15 PM", subject: "Research in Daily Life", instructor: "Mrs. Anna Labrador" },
       { block: "Block 5", start: "03:30 PM", end: "04:30 PM", subject: "Physical Science", instructor: "Mr. Roderick Ventura" },
-
     ],
   },
   "M-109": {
@@ -364,7 +356,7 @@ export default {
   "E-101": {
     id: "E-101",
     name: "E 101",
-    description: "Go to the extension room, you’ll see the first door on the left.",
+    description: "Go to the extension room, you'll see the first door on the left.",
     image: require('./E-101/E-101.jpg'),
     capacity: 30,
     blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5"],
@@ -509,6 +501,22 @@ export default {
       { block: "Block 3", start: "09:00 AM", end: "10:00 AM", subject: "Introduction to Criminology", instructor: "Mr. Brian Cortez" },
       { block: "Block 4", start: "10:00 AM", end: "11:00 AM", subject: "General Biology", instructor: "Mr. Paolo Villanueva" },
       { block: "Block 5", start: "01:00 PM", end: "02:00 PM", subject: "PE 1 – Physical Fitness", instructor: "Mr. Carlo Aquino" },
+    ],
+  },
+  // Extension Building Computer Lab
+  "EB-CL01": {
+    id: "EB-CL01",
+    name: "Extension Building - Computer Lab 01",
+    description: "Located at the Extension Building in Trinidad. Main computer laboratory for extension campus students.",
+    image: require('./EB-CL01/EB-CL01.jpg'),
+    capacity: 40,
+    blocks: ["Block 1", "Block 2", "Block 3", "Block 4", "Block 5"],
+    schedule: [
+      { block: "Block 1", start: "08:00 AM", end: "09:00 AM", subject: "Computer Programming", instructor: "Ms. Jhane Cabaluna" },
+      { block: "Block 2", start: "09:00 AM", end: "10:00 AM", subject: "Database Management", instructor: "Mr. Jay Ian Camelotesr" },
+      { block: "Block 3", start: "10:00 AM", end: "11:00 AM", subject: "Web Development", instructor: "Mrs. Aileen Concon" },
+      { block: "Block 4", start: "01:00 PM", end: "02:00 PM", subject: "IT Fundamentals", instructor: "Mr. Mark Emil Dacoylor" },
+      { block: "Block 5", start: "02:00 PM", end: "03:00 PM", subject: "System Analysis", instructor: "Mrs. Arcelle Arances" },
     ],
   },
 };

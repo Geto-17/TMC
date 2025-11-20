@@ -48,16 +48,7 @@ export default function Navigation() {
     "Clinic",
   ];
   const extensionCampus = [
-    "E-101",
-    "E-102",
-    "E-103",
-    "E-104",
-    "E-105",
-    "E-201",
-    "E-202",
-    "E-203",
-    "E-204",
-    "E-205",
+    "EB-CL01",
   ];
 
   const selectedKey = resolvedRoomKey(selectedRoom);

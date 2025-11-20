@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native"; // ✅ Add this
+import { useNavigation } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -20,7 +20,7 @@ import { API_BASE } from "./config";
 import Dropdown from "./components/Dropdown";
 
 export default function Profile({ student, setStudent }) {
-  const navigation = useNavigation(); // ✅ ensures navigation works inside tab
+  const navigation = useNavigation();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -31,8 +31,6 @@ export default function Profile({ student, setStudent }) {
     gender: student?.gender || "",
   });
 
-  // API_BASE is imported from ./config.js (set your machine IP there)
-
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -42,68 +40,85 @@ export default function Profile({ student, setStudent }) {
 
   const pickImage = async () => {
     try {
+      // Request permissions
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
         Alert.alert("Permission required", "Permission to access media library is required.");
         return;
       }
 
-      // Launch picker without base64 to avoid memory spikes; we'll manipulate the image separately
-      // Determine a safe mediaTypes value that works across expo-image-picker versions
-      const mediaTypes = ImagePicker.MediaType?.Images ?? ImagePicker.MediaTypeOptions?.Images ?? ImagePicker.MediaTypeOptions?.All ?? ImagePicker.MediaTypeOptions?.Images ?? ImagePicker.MediaTypeOptions;
+      // Launch image picker with simplified options
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        quality: 1,
-        base64: false,
+        aspect: [1, 1],
+        quality: 0.8,
       });
 
-      const cancelled = result.cancelled ?? result.canceled ?? false;
-      const pickedUri = result.uri ?? result?.assets?.[0]?.uri;
+      console.log('Image picker result:', result);
 
-      if (!cancelled && pickedUri) {
-        setUploading(true);
-        try {
-          // Resize/compress image to a reasonable max width to handle large files gracefully
-          const MAX_WIDTH = 1024; // px
-          const MANIPULATE_QUALITY = 0.75; // 0..1
+      // Check if user cancelled
+      if (result.canceled) {
+        console.log('User cancelled image picker');
+        return;
+      }
 
-          const manipResult = await ImageManipulator.manipulateAsync(
-            pickedUri,
-            [{ resize: { width: MAX_WIDTH } }],
-            { compress: MANIPULATE_QUALITY, format: ImageManipulator.SaveFormat.JPEG, base64: true }
-          );
+      // Get the selected image URI
+      const pickedUri = result.assets?.[0]?.uri;
+      
+      if (!pickedUri) {
+        Alert.alert('Error', 'No image was selected');
+        return;
+      }
 
-          const resizedBase64 = manipResult.base64;
-          const resizedUri = manipResult.uri;
+      console.log('Picked image URI:', pickedUri);
+      setUploading(true);
 
-          // Prefer multipart/form-data upload to avoid JSON body size limits and "request entity too large" errors.
-          // We still keep a quick local preview by setting avatarUri to the resized data URI if available.
-          if (resizedBase64) {
-            const dataUri = `data:image/jpeg;base64,${resizedBase64}`;
-            setAvatarUri(dataUri);
-          } else if (resizedUri) {
-            setAvatarUri(resizedUri);
+      try {
+        // Resize/compress image
+        const MAX_WIDTH = 1024;
+        const MANIPULATE_QUALITY = 0.75;
+
+        const manipResult = await ImageManipulator.manipulateAsync(
+          pickedUri,
+          [{ resize: { width: MAX_WIDTH } }],
+          { 
+            compress: MANIPULATE_QUALITY, 
+            format: ImageManipulator.SaveFormat.JPEG,
+            base64: true 
           }
+        );
 
-          // Upload the resized file via multipart form (uploadAvatar handles the POST and updates state on success)
-          await uploadAvatar(resizedUri || pickedUri);
-        } catch (err) {
-          console.error('Image processing/upload error', err);
-          Alert.alert('Error', 'Could not process or upload image');
-        } finally {
-          setUploading(false);
+        console.log('Image manipulated successfully');
+
+        const resizedBase64 = manipResult.base64;
+        const resizedUri = manipResult.uri;
+
+        // Set preview
+        if (resizedBase64) {
+          const dataUri = `data:image/jpeg;base64,${resizedBase64}`;
+          setAvatarUri(dataUri);
+        } else if (resizedUri) {
+          setAvatarUri(resizedUri);
         }
+
+        // Upload the image
+        await uploadAvatar(resizedUri || pickedUri);
+      } catch (err) {
+        console.error('Image processing/upload error:', err);
+        Alert.alert('Error', 'Could not process or upload image. Please try again.');
+      } finally {
+        setUploading(false);
       }
     } catch (err) {
-      console.error('Image pick error', err);
-      Alert.alert('Error', 'Could not open image picker');
+      console.error('Image pick error:', err);
+      Alert.alert('Error', 'Could not open image picker. Please try again.');
     }
   };
 
   const uploadAvatar = async (uri) => {
     if (!student?._id) {
-      Alert.alert('Error', 'Student id missing');
+      Alert.alert('Error', 'Student ID missing');
       return;
     }
 
@@ -111,8 +126,9 @@ export default function Profile({ student, setStudent }) {
     try {
       const body = new FormData();
       if (!uri) throw new Error('No image uri');
-      const filename = uri.split('/').pop();
-      const match = /\.([0-9a-z]+)(?:[?#]|$)/i.exec(filename || '');
+      
+      const filename = uri.split('/').pop() || 'photo.jpg';
+      const match = /\.([0-9a-z]+)(?:[?#]|$)/i.exec(filename);
       const type = match ? `image/${match[1]}` : 'image/jpeg';
 
       body.append('avatar', {
@@ -121,17 +137,17 @@ export default function Profile({ student, setStudent }) {
         type,
       });
 
-      // Let fetch set the Content-Type with boundary
       const uploadUrl = `${API_BASE}/upload-avatar/${student._id}`;
-      console.log('Uploading to', uploadUrl);
+      console.log('Uploading to:', uploadUrl);
+      
       const res = await fetch(uploadUrl, {
         method: 'POST',
         body,
       });
 
-      // Read response text first (avoids 'Already read' when parsing fails)
       const resText = await res.text();
       let data;
+      
       try {
         data = JSON.parse(resText);
       } catch (parseErr) {
@@ -143,14 +159,14 @@ export default function Profile({ student, setStudent }) {
       if (res.ok && data && data.student) {
         setAvatarUri(data.student.avatar);
         if (typeof setStudent === 'function') setStudent(data.student);
-        Alert.alert('Success', 'Avatar uploaded');
+        Alert.alert('Success', 'Profile picture updated!');
       } else {
-        console.error('Upload failed', data);
-        Alert.alert('Upload failed', (data && data.message) || 'Could not upload avatar');
+        console.error('Upload failed:', data);
+        Alert.alert('Upload failed', data?.message || 'Could not upload avatar');
       }
     } catch (err) {
-      console.error('Upload error', err);
-      Alert.alert('Error', 'Unable to upload avatar');
+      console.error('Upload error:', err);
+      Alert.alert('Error', 'Unable to upload avatar. Check your connection.');
     } finally {
       setUploading(false);
     }
@@ -173,24 +189,23 @@ export default function Profile({ student, setStudent }) {
       const data = await response.json();
 
       if (response.ok && data && data.student) {
-        // Update local formData with returned values
         setFormData((prev) => ({
           ...prev,
           firstName: data.student.firstName || prev.firstName,
           lastName: data.student.lastName || prev.lastName,
           course: data.student.course || prev.course,
           block: data.student.block || prev.block,
+          gender: data.student.gender || prev.gender,
         }));
 
-        // If parent passed a setter, update parent state so Dashboard reflects changes
         if (typeof setStudent === "function") {
           setStudent(data.student);
         }
 
-        Alert.alert("Success", "Profile updated successfully");
+        Alert.alert("Success", "Profile updated successfully!");
         setIsEditing(false);
       } else {
-        Alert.alert("Error", (data && data.message) || "Failed to update profile");
+        Alert.alert("Error", data?.message || "Failed to update profile");
       }
     } catch (error) {
       Alert.alert("Error", "Unable to connect to the server");
@@ -200,139 +215,151 @@ export default function Profile({ student, setStudent }) {
     }
   };
 
-  
-
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} keyboardVerticalOffset={30}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.container} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
-      <View style={styles.avatarContainer}>
-        {avatarUri ? (
-          <Image source={{ uri: avatarUri }} style={styles.avatarImage} />
+    <KeyboardAvoidingView 
+      style={{ flex: 1 }} 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+      keyboardVerticalOffset={30}
+    >
+      <ScrollView 
+        contentContainerStyle={{ flexGrow: 1 }} 
+        style={styles.container} 
+        showsVerticalScrollIndicator={false} 
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.avatarContainer}>
+          {uploading ? (
+            <ActivityIndicator size="large" color="#191970" />
+          ) : avatarUri ? (
+            <Image source={{ uri: avatarUri }} style={styles.avatarImage} />
+          ) : (
+            <Text style={styles.avatar}>👤</Text>
+          )}
+          <TouchableOpacity 
+            style={styles.cameraButton} 
+            onPress={pickImage}
+            disabled={uploading}
+          >
+            <MaterialIcons name="photo-camera" size={18} color="#fff" />
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.profileName}>
+          {formData.firstName} {formData.lastName}
+        </Text>
+        <Text style={styles.profileId}>{student?.studentId || "N/A"}</Text>
+
+        {!isEditing ? (
+          <>
+            <View style={styles.infoBox}>
+              <Text style={styles.infoLabel}>First Name</Text>
+              <Text style={styles.infoValue}>{formData.firstName}</Text>
+            </View>
+
+            <View style={styles.infoBox}>
+              <Text style={styles.infoLabel}>Last Name</Text>
+              <Text style={styles.infoValue}>{formData.lastName}</Text>
+            </View>
+
+            <View style={styles.infoBox}>
+              <Text style={styles.infoLabel}>Gender</Text>
+              <Text style={styles.infoValue}>{formData.gender || "Not set"}</Text>
+            </View>
+
+            <View style={styles.infoBox}>
+              <Text style={styles.infoLabel}>Course</Text>
+              <Text style={styles.infoValue}>{formData.course}</Text>
+            </View>
+
+            <View style={styles.infoBox}>
+              <Text style={styles.infoLabel}>Block</Text>
+              <Text style={styles.infoValue}>{formData.block}</Text>
+            </View>
+
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => setIsEditing(true)}
+            >
+              <Text style={styles.editButtonText}>Edit Profile</Text>
+            </TouchableOpacity>
+          </>
         ) : (
-          <Text style={styles.avatar}>👤</Text>
+          <>
+            <View style={styles.editGroup}>
+              <Text style={styles.editLabel}>First Name</Text>
+              <TextInput
+                style={styles.editInput}
+                value={formData.firstName}
+                onChangeText={(value) => handleInputChange("firstName", value)}
+                editable={!loading}
+              />
+            </View>
+
+            <View style={styles.editGroup}>
+              <Text style={styles.editLabel}>Last Name</Text>
+              <TextInput
+                style={styles.editInput}
+                value={formData.lastName}
+                onChangeText={(value) => handleInputChange("lastName", value)}
+                editable={!loading}
+              />
+            </View>
+
+            <View style={styles.editGroup}>
+              <Dropdown
+                label="Gender"
+                options={["Male", "Female"]}
+                selected={formData.gender}
+                onSelect={(value) => handleInputChange('gender', value)}
+                placeholder="Select gender"
+              />
+            </View>
+
+            <View style={styles.editGroup}>
+              <Dropdown
+                label="Course"
+                options={["BSIT", "BSCRIM", "BOED", "BSOA", "POLSCI"]}
+                selected={formData.course}
+                onSelect={(value) => handleInputChange('course', value)}
+                placeholder="Select course"
+              />
+            </View>
+
+            <View style={styles.editGroup}>
+              <Dropdown
+                label="Block"
+                options={
+                  formData.course === 'BSIT'
+                    ? ['Block 1', 'Block 2', 'Block 3', 'Block 4', 'Block 5']
+                    : ['Block 1', 'Block 2', 'Block 3']
+                }
+                selected={formData.block}
+                onSelect={(value) => handleInputChange('block', value)}
+                placeholder="Select block"
+              />
+            </View>
+
+            <TouchableOpacity
+              style={[styles.saveButton, loading && styles.buttonDisabled]}
+              onPress={handleSave}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator color="#fff" size="small" />
+              ) : (
+                <Text style={styles.saveButtonText}>Save Changes</Text>
+              )}
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => setIsEditing(false)}
+              disabled={loading}
+            >
+              <Text style={styles.cancelButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </>
         )}
-        <TouchableOpacity style={styles.cameraButton} onPress={pickImage}>
-          <MaterialIcons name="photo-camera" size={18} color="#fff" />
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.profileName}>
-        {formData.firstName} {formData.lastName}
-      </Text>
-      <Text style={styles.profileId}>{student?.studentId}</Text>
-
-      {!isEditing ? (
-        <>
-          <View style={styles.infoBox}>
-            <Text style={styles.infoLabel}>First Name</Text>
-            <Text style={styles.infoValue}>{formData.firstName}</Text>
-          </View>
-
-          <View style={styles.infoBox}>
-            <Text style={styles.infoLabel}>Last Name</Text>
-            <Text style={styles.infoValue}>{formData.lastName}</Text>
-          </View>
-
-          <View style={styles.infoBox}>
-            <Text style={styles.infoLabel}>Course</Text>
-            <Text style={styles.infoValue}>{formData.course}</Text>
-          </View>
-
-          <View style={styles.infoBox}>
-            <Text style={styles.infoLabel}>Block</Text>
-            <Text style={styles.infoValue}>{formData.block}</Text>
-          </View>
-
-          <TouchableOpacity
-            style={styles.editButton}
-            onPress={() => setIsEditing(true)}
-          >
-            <Text style={styles.editButtonText}>Edit Profile</Text>
-          </TouchableOpacity>
-
-          
-
-        </>
-      ) : (
-        <>
-          <View style={styles.editGroup}>
-            <Text style={styles.editLabel}>First Name</Text>
-            <TextInput
-              style={styles.editInput}
-              value={formData.firstName}
-              onChangeText={(value) => handleInputChange("firstName", value)}
-              editable={!loading}
-            />
-          </View>
-
-          <View style={styles.editGroup}>
-            <Text style={styles.editLabel}>Last Name</Text>
-            <TextInput
-              style={styles.editInput}
-              value={formData.lastName}
-              onChangeText={(value) => handleInputChange("lastName", value)}
-              editable={!loading}
-            />
-          </View>
-
-          <View style={styles.editGroup}>
-            
-            <Dropdown
-              label="Course"
-              options={["BSIT", "BSCRIM", "BOED", "BSOA", "POLSCI"]}
-              selected={formData.course}
-              onSelect={(value) => handleInputChange('course', value)}
-              placeholder="Select course"
-            />
-          </View>
-
-          <View style={styles.editGroup}>
-            
-            <Dropdown
-              label="Block"
-              options={
-                formData.course === 'BSIT'
-                  ? ['Block 1', 'Block 2', 'Block 3', 'Block 4', 'Block 5']
-                  : ['Block 1', 'Block 2', 'Block 3']
-              }
-              selected={formData.block}
-              onSelect={(value) => handleInputChange('block', value)}
-              placeholder="Select block"
-            />
-          </View>
-
-          <View style={styles.editGroup}>
-            
-            <Dropdown
-              label="Gender"
-              options={["Male", "Female"]}
-              selected={formData.gender}
-              onSelect={(value) => handleInputChange('gender', value)}
-              placeholder="Select gender"
-            />
-          </View>
-
-          <TouchableOpacity
-            style={[styles.saveButton, loading && styles.buttonDisabled]}
-            onPress={handleSave}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color="#fff" size="small" />
-            ) : (
-              <Text style={styles.saveButtonText}>Save Changes</Text>
-            )}
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.cancelButton}
-            onPress={() => setIsEditing(false)}
-            disabled={loading}
-          >
-            <Text style={styles.cancelButtonText}>Cancel</Text>
-          </TouchableOpacity>
-        </>
-      )}
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -354,7 +381,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     alignSelf: "center",
     borderWidth: 3,
-  borderColor: "#191970",
+    borderColor: "#191970",
   },
   avatar: {
     fontSize: 50,
@@ -419,22 +446,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
     elevation: 3,
-    
   },
   editButtonText: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#ffcc00",
-  },
-  logoutButton: {
-    backgroundColor: "#ef4444",
-    padding: 12,
-    borderRadius: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    width: 60,
-    height: 60,
-    elevation: 3,
   },
   editGroup: {
     marginBottom: 14,
