@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import ScanQr from "./ScanQr";
+import ScanQr from "./ScanQr_MY_VERSION";
 import Profile from "./Profile";
 import Navigation from "./Navigation";
+import About from "./About";
 
 export default function Dashboard({ route, navigation }) {
   const [student, setStudent] = useState(route?.params?.student || {});
@@ -63,6 +64,8 @@ export default function Dashboard({ route, navigation }) {
         return <ScanQr />;
       case "profile":
         return <Profile student={student} setStudent={setStudent} />;
+      case "about":
+        return <About />;
       default:
         return null;
     }
@@ -90,6 +93,7 @@ export default function Dashboard({ route, navigation }) {
           ["nav", "location-on", "Navigate"],
           ["scan", "qr-code", "Scan"],
           ["profile", "person", "Profile"],
+          ["about", "info", "About"],
         ].map(([key, icon, label]) => (
           <TouchableOpacity
             key={key}

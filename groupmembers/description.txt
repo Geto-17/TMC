@@ -1,0 +1,95 @@
+avatar logo use the tmc-logo inside the asstes
+
+TMC Guide App
+
+App Name: TMC Guide App
+Type: React Native mobile application (Expo)
+Purpose: A comprehensive guide for TMC (Trnidad Municipal College) that helps students navigate campus, access room schedules, and scan QR codes for instant room information.
+
+Main Features
+
+Onboarding & Login
+
+Users are welcomed with IntroTmc and Onboarding screens.
+
+LoginScreen handles user authentication.
+
+Prepares the app for personalized experiences.
+
+Dashboard
+
+Acts as the central hub for students.
+
+Provides navigation to:
+
+Scan QR codes
+
+View schedules
+
+Access room info
+
+Other school services (future features)
+
+QR Code Scanner (ScanQR)
+
+Uses device camera to scan room QR codes.
+
+Instantly retrieves room information:
+
+Room name and full name
+
+Class schedules per block
+
+Instructor details
+
+Room images
+
+Includes a modal to display scanned room details.
+
+Handles camera permissions and scanning errors gracefully.
+
+Room Data Management
+
+Room information is stored in the app as a JSON-like object.
+
+Each room has:
+
+Name & Full Name
+
+Image (can be updated to actual photos)
+
+Schedule per block (time, subject, instructor)
+
+Makes it easy to add or update rooms in the future.
+
+User Experience Features
+
+Modern UI with:
+
+Rounded buttons
+
+Modals
+
+Iconography (MaterialIcons)
+
+Color theme (school colors: navy blue, gold, white)
+
+Feature descriptions highlight the benefits of using the app.
+
+QR Scanner shows an overlay and instructions for students.
+
+in this area you put me 1st which the leader 
+
+avatar image just make it require ill put the image myself
+
+"Leader"
+"Auxillo John Mark"
+
+The rest also will have avatar but below is the member add 9 of it
+
+avatar members image ill put it myself 
+
+"Members"
+"Their name" ill put them myself hehehe 
+
+this is for the about beside profile

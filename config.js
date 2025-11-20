@@ -5,4 +5,4 @@
 // - iOS simulator: 'http://localhost:3000'
 // - Physical device on same Wi-Fi: 'http://192.168.1.42:3000' (replace with your PC's LAN IP)
 
-export const API_BASE = 'http://10.240.19.129:3000';
+export const API_BASE = 'http://10.152.41.129:3000';
