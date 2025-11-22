@@ -96,7 +96,10 @@ app.post("/register", async (req, res) => {
 
     res.status(201).json({ message: "Registration successful", student: newStudent });
   } catch (error) {
-    res.status(500).json({ message: "Server error during registration", error });
+    // Log full error on the server for debugging
+    console.error('Registration error:', error && error.stack ? error.stack : error);
+    // Return a minimal message to the client (include the error.message to aid debugging)
+    res.status(500).json({ message: "Server error during registration", error: error && error.message ? error.message : String(error) });
   }
 });
 
