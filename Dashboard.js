@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image, StatusBar } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import ScanQr from "./ScanQr_MY_VERSION";
+import ScanQr from "./ScanQr";
 import Profile from "./Profile";
 import Navigation from "./Navigation";
 import About from "./About";
@@ -73,6 +73,7 @@ export default function Dashboard({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="#191970" barStyle="light-content" />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Dashboard</Text>
 
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   },
   logoutButton: { position: "absolute", right: 20, top: 45 },
   headerTitle: { fontSize: 24, fontWeight: "bold", color: "#ffcc00" },
-  contentContainer: { flex: 1, padding: 16 },
+  contentContainer: { flex: 1, padding: 16,paddingBottom: 0, },
   tabContent: { flex: 1 },
   greeting: { fontSize: 16, color: "#666", marginBottom: 2 },
   userName: { fontSize: 20, fontWeight: "700", color: "#191970", marginBottom: 4 },

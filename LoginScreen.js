@@ -11,8 +11,10 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  StatusBar,
 } from "react-native";
 import Dropdown from "./components/Dropdown";
+import { API_BASE } from "./config";
 
 export default function LoginScreen({ navigation }) {
   const [isRegister, setIsRegister] = useState(false);
@@ -30,7 +32,7 @@ export default function LoginScreen({ navigation }) {
   });
 
   // ⚠️ IMPORTANT: Your laptop's IP address - change this if it changes
-  const API_BASE = "http://10.0.61.182:3000";  // ← Your hotspot IP
+  // API_BASE is read from ./config.js (set to your machine IP or emulator mapping)
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -188,6 +190,7 @@ export default function LoginScreen({ navigation }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={40}
     >
+      <StatusBar backgroundColor="#191970" barStyle="light-content" />
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -400,7 +403,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 20,
     paddingTop: 30,
-    paddingBottom: 20,
+    paddingBottom: 0,
     justifyContent: "flex-start",
   },
   header: { alignItems: "center", marginBottom: 40 },

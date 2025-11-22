@@ -130,10 +130,12 @@ app.post('/upload-avatar/:id', upload.single('avatar'), async (req, res) => {
     const { id } = req.params;
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
 
-    // Build public URL using the server's actual listening address (0.0.0.0:3000)
-    // Use localhost for dev, or replace with your machine's LAN IP if accessing from phone
-    const host = '10.152.41.129'; // ⚠️ Change this to your machine's IP or use dynamic detection
-    const avatarUrl = `http://${host}:3000/uploads/${req.file.filename}`;
+  // Build public URL for the uploaded file.
+  // Use PUBLIC_BASE_URL env var in development to ensure clients can reach the returned URL.
+  // Fallback to the request host if PUBLIC_BASE_URL is not provided.
+  // Example: PUBLIC_BASE_URL=http://192.168.1.100:3000 npm start
+  const PUBLIC_BASE = process.env.PUBLIC_BASE_URL || `${req.protocol}://${req.get('host')}`;
+  const avatarUrl = `${PUBLIC_BASE}/uploads/${req.file.filename}`;
 
     const updated = await Student.findByIdAndUpdate(id, { avatar: avatarUrl }, { new: true });
     if (!updated) return res.status(404).json({ message: 'Student not found' });

@@ -64,8 +64,34 @@ export default function About() {
         </View>
       </View>
 
+      {/* Instructor Section */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Instructor</Text>
+        <Text style={styles.submittedTo}>Submitted to: Jay Ian Camelotes</Text>
+        <View style={styles.instructorContainer}>
+          <View style={styles.leaderCard}>
+            <View style={styles.leaderAvatarPlaceholder}>
+              <Image
+                source={require("./assets/sirian.jpg")}
+                style={styles.leaderAvatar}
+              />
+            </View>
+            <Text style={styles.leaderRole}>Instructor</Text>
+            <Text style={styles.leaderName}>Jay Ian Camelotes</Text>
+            <Text style={styles.sectionText}>IT-Elective</Text>
+          </View>
+        </View>
+      </View>
+
       {/* Team Section */}
       <View style={styles.section}>
+        {/* Submitted by banner */}
+
+        <Text style={styles.submittedText}>
+            Submitted by the <Text style={{ fontWeight: "bold" }}>Group 1</Text>
+        </Text>
+
+
         <Text style={styles.sectionTitle}>Development Team</Text>
 
         {/* Leader Section - Centered */}
@@ -90,7 +116,7 @@ export default function About() {
           <View style={styles.gridItem}>
             <View style={styles.memberAvatarPlaceholder}>
               <Image
-                source={require("./assets/tmc-logo.jpg")}
+                source={require("./assets/cano.jpg")}
                 style={styles.memberAvatar}
               />
             </View>
@@ -352,6 +378,24 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 12,
     textAlign: "center",
+  },
+  submittedText: {
+    fontSize: 17,
+    color: "#000000ff",
+    textAlign: "center",
+    marginBottom: 8,
+    fontStyle: "italic",
+  },
+  submittedTo: {
+    fontSize: 14,
+    color: "#333",
+    textAlign: "center",
+    marginBottom: 8,
+    fontWeight: "600",
+  },
+  instructorContainer: {
+    alignItems: "center",
+    marginBottom: 12,
   },
   gridContainer: {
     flexDirection: "row",
