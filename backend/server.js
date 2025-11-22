@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+const fs = require('fs');
 const multer = require("multer");
 const os = require("os");
 const Student = require("./models/Student");
@@ -25,6 +26,17 @@ app.use((req, res, next) => {
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Ensure uploads directory exists (Render's filesystem is writable but ephemeral). Create on startup.
+const uploadsDir = path.join(__dirname, 'uploads');
+try {
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    console.log(`Created uploads directory at ${uploadsDir}`);
+  }
+} catch (err) {
+  console.error('Failed to ensure uploads directory exists:', err);
+}
+
 // Multer setup for avatar uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, path.join(__dirname, 'uploads')),
@@ -43,9 +55,17 @@ const fileFilter = (req, file, cb) => {
 // Allow larger avatar files (15 MB) during development — adjust for production as needed.
 const upload = multer({ storage, fileFilter, limits: { fileSize: 15 * 1024 * 1024 } });
 
+// Load environment variables from .env when present (local dev convenience)
+try {
+  require('dotenv').config();
+} catch (e) {
+  // dotenv is optional in production (env vars provided by host)
+}
+
 // MongoDB Connection
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/tmc_db";
 mongoose
-  .connect("mongodb://127.0.0.1:27017/tmc_db", {
+  .connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -175,11 +195,12 @@ function getNetworkIPs() {
 }
 
 // Start Server
-const PORT = 3000;
-const HOST = "0.0.0.0";
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || "0.0.0.0";
 
 app.listen(PORT, HOST, () => {
   const networkIPs = getNetworkIPs();
+  const PUBLIC_BASE = process.env.PUBLIC_BASE_URL;
   
   console.log("\n" + "=".repeat(60));
   console.log("🚀 SERVER IS RUNNING!");
@@ -187,6 +208,13 @@ app.listen(PORT, HOST, () => {
   console.log(`📡 Port: ${PORT}`);
   console.log(`🌐 Host: ${HOST} (listening on all network interfaces)`);
   console.log("\n📱 USE THESE URLs IN YOUR FRONTEND:\n");
+  if (PUBLIC_BASE) {
+    console.log(`
+📢 PUBLIC_BASE_URL is set: ${PUBLIC_BASE}
+   Make sure your frontend EXPO_PUBLIC_API_BASE (or runtime API_BASE) points to this domain.`);
+  } else {
+    console.log('\n📢 PUBLIC_BASE_URL is NOT set. If you deploy on Render, set PUBLIC_BASE_URL env var to your service URL (https://your-service.onrender.com)');
+  }
   
   if (networkIPs.length > 0) {
     networkIPs.forEach((ip, index) => {

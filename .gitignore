@@ -32,6 +32,11 @@ yarn-error.*
 
 # local env files
 .env*.local
+# ignore local dotenv files (explicitly include common names)
+/backend/.env
+/.env
+// ignore uploaded files (do not commit runtime uploads)
+/backend/uploads/
 
 # typescript
 *.tsbuildinfo
