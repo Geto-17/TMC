@@ -4,11 +4,11 @@
     "slug": "TMC",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/tmc-logo.jpg",
+    "icon": "./assets/tmcl.jpg",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/tmc-logo.jpg",
+      "image": "./assets/tmcl.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,7 +18,7 @@
     "android": {
       "package": "com.tmccampusguide.app",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/tmc-logo.jpg",
+        "foregroundImage": "./assets/tmcl.jpg",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,

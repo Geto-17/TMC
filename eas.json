@@ -4,11 +4,17 @@
   },
   "build": {
     "preview": {
+      "env": {
+        "EXPO_PUBLIC_API_BASE": "https://tmc-backend-qt9z.onrender.com"
+      },
       "android": {
         "buildType": "apk"
       }
     },
     "production": {
+      "env": {
+        "EXPO_PUBLIC_API_BASE": "https://tmc-backend-qt9z.onrender.com"
+      },
       "android": {
         "buildType": "app-bundle"
       }
