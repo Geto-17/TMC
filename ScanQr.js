@@ -9,14 +9,17 @@ import {
   Image,
   Alert 
 } from "react-native";
-import { Camera, useCameraPermissions } from 'expo-camera';
+// Use the native expo barcode scanner at runtime (try to require it safely).
+// We prefer `expo-barcode-scanner` here because you requested to use the previous scanner.
 import { MaterialIcons } from "@expo/vector-icons";
+import { BarCodeScanner } from 'expo-barcode-scanner';
 import roomsData from './rooms/roomsData';
 import { LAB_LOCATIONS, openGoogleMaps, hasLocation, getLocation } from './data/labLocations';
 
 export default function ScanQR() {
-  const [permission, requestPermission] = useCameraPermissions();
-  // Ensure camera permission object shape works with expo-camera Camera component
+  // Use the native BarCodeScanner from expo-barcode-scanner
+  // (the dependency is listed in package.json and installed locally)
+  // We'll use its permission API and component directly.
   const [scanned, setScanned] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -65,23 +68,22 @@ export default function ScanQR() {
     }
   };
 
+  const [permission, setPermission] = useState(null);
+
   const startScanning = async () => {
-    if (!permission) {
-      const { status } = await requestPermission();
+    // Request permission from expo-barcode-scanner
+    try {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setPermission({ granted: status === 'granted' });
       if (status !== 'granted') {
-        Alert.alert("Permission Required", "Camera permission is required to scan QR codes.");
+        Alert.alert('Permission Required', 'Camera permission is required to scan QR codes.');
         return;
       }
+    } catch (e) {
+      Alert.alert('Permission Error', 'Unable to request camera permission.');
+      return;
     }
-    
-    if (permission && !permission.granted) {
-      const { status } = await requestPermission();
-      if (status !== 'granted') {
-        Alert.alert("Permission Denied", "Please enable camera permissions in your device settings.");
-        return;
-      }
-    }
-    
+
     setScanning(true);
     setScanned(false);
   };
@@ -92,13 +94,14 @@ export default function ScanQR() {
     setScanned(false);
   };
 
+  
+
   if (scanning) {
     return (
       <View style={styles.scannerContainer}>
-        <Camera
+        <BarCodeScanner
           style={styles.camera}
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          type={Camera.Constants.Type.back}
         >
           <View style={styles.overlay}>
             <View style={styles.scanFrame} />
@@ -115,7 +118,7 @@ export default function ScanQR() {
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
-        </Camera>
+        </BarCodeScanner>
       </View>
     );
   }
