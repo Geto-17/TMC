@@ -9,13 +9,14 @@ import {
   Image,
   Alert 
 } from "react-native";
-import { CameraView, useCameraPermissions } from 'expo-camera';
+import { Camera, useCameraPermissions } from 'expo-camera';
 import { MaterialIcons } from "@expo/vector-icons";
 import roomsData from './rooms/roomsData';
 import { LAB_LOCATIONS, openGoogleMaps, hasLocation, getLocation } from './data/labLocations';
 
 export default function ScanQR() {
   const [permission, requestPermission] = useCameraPermissions();
+  // Ensure camera permission object shape works with expo-camera Camera component
   const [scanned, setScanned] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -94,13 +95,10 @@ export default function ScanQR() {
   if (scanning) {
     return (
       <View style={styles.scannerContainer}>
-        <CameraView
+        <Camera
           style={styles.camera}
-          facing="back"
-          onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
-          barcodeScannerSettings={{
-            barcodeTypes: ['qr'],
-          }}
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          type={Camera.Constants.Type.back}
         >
           <View style={styles.overlay}>
             <View style={styles.scanFrame} />
@@ -117,7 +115,7 @@ export default function ScanQR() {
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
-        </CameraView>
+        </Camera>
       </View>
     );
   }

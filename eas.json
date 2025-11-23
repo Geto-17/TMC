@@ -5,7 +5,8 @@
   "build": {
     "preview": {
       "env": {
-        "EXPO_PUBLIC_API_BASE": "https://tmc-backend-qt9z.onrender.com"
+        "EXPO_PUBLIC_API_BASE": "https://tmc-backend-qt9z.onrender.com",
+        "NODE_ENV": "production"
       },
       "android": {
         "buildType": "apk"
@@ -13,7 +14,8 @@
     },
     "production": {
       "env": {
-        "EXPO_PUBLIC_API_BASE": "https://tmc-backend-qt9z.onrender.com"
+        "EXPO_PUBLIC_API_BASE": "https://tmc-backend-qt9z.onrender.com",
+        "NODE_ENV": "production"
       },
       "android": {
         "buildType": "app-bundle"
