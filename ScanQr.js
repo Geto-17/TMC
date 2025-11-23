@@ -11,15 +11,24 @@ import {
 } from "react-native";
 // Use the native expo barcode scanner at runtime (try to require it safely).
 // We prefer `expo-barcode-scanner` here because you requested to use the previous scanner.
-import { MaterialIcons } from "@expo/vector-icons";
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Camera, CameraType, useCameraPermissions } from 'expo-camera';
+
+// Temporary runtime debug logs — remove after debugging
+try {
+  // eslint-disable-next-line no-console
+  console.log('ScanQr debug: Camera import exists?', typeof Camera !== 'undefined');
+  // eslint-disable-next-line no-console
+  console.log('ScanQr debug: useCameraPermissions exists?', typeof useCameraPermissions === 'function');
+} catch (e) {
+  // ignore
+}
 import roomsData from './rooms/roomsData';
 import { LAB_LOCATIONS, openGoogleMaps, hasLocation, getLocation } from './data/labLocations';
 
 export default function ScanQR() {
-  // Use the native BarCodeScanner from expo-barcode-scanner
-  // (the dependency is listed in package.json and installed locally)
-  // We'll use its permission API and component directly.
+  // Use expo-camera's Camera component for scanning. This avoids requiring
+  // a native expo-barcode-scanner module in the runtime and works in Expo Go/dev clients.
   const [scanned, setScanned] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -68,16 +77,31 @@ export default function ScanQR() {
     }
   };
 
-  const [permission, setPermission] = useState(null);
+  // Camera permission hook from expo-camera
+  const [cameraPermission, requestCameraPermission] = useCameraPermissions();
+  const resolvedCameraType = (CameraType && CameraType.back) || 1;
+
+  // Normalize Camera export shape: some bundlers return a module namespace object.
+  const ResolvedCamera = (typeof Camera === 'function' || (Camera && Camera.render) || (Camera && Camera.prototype))
+    ? Camera
+    : (Camera && Camera.default) || (Camera && Camera.Camera) || null;
+
+  // Debug resolved camera
+  try {
+    // eslint-disable-next-line no-console
+    console.log('ScanQr debug: ResolvedCamera type:', typeof ResolvedCamera, ResolvedCamera && (ResolvedCamera.name || Object.keys(ResolvedCamera).slice(0,3)));
+  } catch (e) {
+    // ignore
+  }
 
   const startScanning = async () => {
-    // Request permission from expo-barcode-scanner
     try {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setPermission({ granted: status === 'granted' });
-      if (status !== 'granted') {
-        Alert.alert('Permission Required', 'Camera permission is required to scan QR codes.');
-        return;
+      if (!cameraPermission || cameraPermission.status !== 'granted') {
+        const { status } = await requestCameraPermission();
+        if (status !== 'granted') {
+          Alert.alert('Permission Required', 'Camera permission is required to scan QR codes.');
+          return;
+        }
       }
     } catch (e) {
       Alert.alert('Permission Error', 'Unable to request camera permission.');
@@ -99,9 +123,11 @@ export default function ScanQR() {
   if (scanning) {
     return (
       <View style={styles.scannerContainer}>
-        <BarCodeScanner
+        {ResolvedCamera ? (
+          <ResolvedCamera
           style={styles.camera}
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          type={resolvedCameraType}
         >
           <View style={styles.overlay}>
             <View style={styles.scanFrame} />
@@ -118,7 +144,22 @@ export default function ScanQR() {
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
-        </BarCodeScanner>
+          </ResolvedCamera>
+        ) : (
+          <View style={[styles.camera, styles.overlay]}>
+            <Text style={{ color: '#fff' }}>Camera component not available on this runtime.</Text>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => {
+                setScanning(false);
+                setScanned(false);
+              }}
+            >
+              <MaterialIcons name="close" size={24} color="#fff" />
+              <Text style={styles.cancelButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     );
   }
